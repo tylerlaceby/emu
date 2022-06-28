@@ -6,6 +6,7 @@
 #include "../parser/parser.h"
 #include "environment.h"
 #include "values.h"
+#include <map>
 
 // DEFINE THE CLASS FOR THE INTERPRETER
 
@@ -14,10 +15,10 @@ private:
 
   Value* evaluateLiteral (Node* node, EmuEnv* env);
   Value* evaluateList (ListExpr* list, EmuEnv* env);
-  
+  Value* evaluate (Node* node, EmuEnv* env);
 public:
 
-  Value* evaluate (Node* ast);
+  Value* eval (Node* ast);
 
 };
 

@@ -3,26 +3,26 @@
 
 #include "../emu.h"
 #include "values.h"
-#include <hash_map>
+#include <map>
 #include <vector>
 
 class EmuEnv {
 
 private:
   // Holds the list of all variables, custom types, functions etc...
-  std::hash_map<std::string, Value*> variables;
+  std::map<std::string, Value*> variables;
   EmuEnv* parent; // this could always be a nullptr if this is a global env
 
 public:
 
   EmuEnv (EmuEnv* p) {
     parent = p;
-    variables = std::hash_map<std::string, Value*>();
+    variables = std::map<std::string, Value*>();
   }
 
   EmuEnv () {
     parent = nullptr;
-    variables = std::hash_map<std::string, Value*>();
+    variables = std::map<std::string, Value*>();
   }
 
   // check for a variable to exist and return the value or a nullptr. This will check the parents as well until one is found.

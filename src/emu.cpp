@@ -9,10 +9,9 @@ int main () {
 
     // Ferform Lexing and Parsing
     ListExpr* tree = parser.parse(code);
-    tree->print();
 
     // Evaluate tree with tree-walker
-    Value* result = runtime.evaluate(tree);
-    printf("Finished evaluation: resulttype: %d\n", (int)result->type);
+    Value* result = runtime.eval(tree);
+    PRINT_EMU_VALUE(result);
     return 0;
 }

@@ -16,3 +16,9 @@ void emu::throw_error (const char* e1) {
     std::cout << e1 << "\n";
     exit(1);
 }
+
+void emu::runtime_exception (const char* e1) {
+    std::cout << "Emu Runtime Exception: \n";
+    std::cout << e1 << "\n";
+    exit(1);
+}
