@@ -13,8 +13,8 @@ typedef enum class ValueType {
 
 // Represents a value at runtime that cannot be held on the stack.
 typedef enum class ObjectType {
-    STRING,
-    // FUNCTION,
+    // STRING,
+    FUNCTION,
     // STRUCTURE,
     // ARRAY,
 } ObjectType;
@@ -24,14 +24,14 @@ struct Object {
     ObjectType kind;
 };
 
-struct StrObject : public Object {
-    std::string value;
+// struct StrObject : public Object {
+//     std::string value;
 
-    StrObject (std::string str) {
-        kind = ObjectType::STRING;
-        value = str;
-    }
-};
+//     StrObject (std::string str) {
+//         kind = ObjectType::STRING;
+//         value = str;
+//     }
+// };
 
 
 
