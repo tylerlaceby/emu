@@ -54,11 +54,12 @@ struct Value {
     }
 };
 
-/////////////////////////////////
-//   CUSTOM VALUE CONSTRUCTORS  /
-/////////////////////////////////
+//////////////////////////////////
+//   CUSTOM VALUE CONSTRUCTORS  //
+//////////////////////////////////
 
 static bool IS_CUSTOM_VAL (Value* v) { return v->type == ValueType::CUSTOM; }
+static bool IS_FUNCTION_VAL (Value* v) { return false; }
 
 ///////////////////////////
 //  NATIVE VALUE CHECKS  //

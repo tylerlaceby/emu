@@ -20,13 +20,14 @@ private:
   Value* evaluateList (ListExpr* list, EmuEnv* env);
   Value* evaluate (Node* node, EmuEnv* env);
   Value* evaluateSymbol (Symbol* node, EmuEnv* env);
+  Value* evaluateBlock (ListExpr* list, EmuEnv* env);
 
   ////////////////////////////////
   //     Commands & Operations  //
   ////////////////////////////////
   
   // Perform a variable declaration with the default variable being Null. Throws if variable is already declared.
-  Value* var_cmd (ListExpr* list, EmuEnv* env);
+  Value* var_cmd (ListExpr* list, EmuEnv* env, bool isConstantExpr);
   // Perform a variable assignment. Will throw an error id the variable is undefined.s
   Value* set_cmd (ListExpr* list, EmuEnv* env);
 public:

@@ -105,18 +105,43 @@ Value* Interpreter::evaluateList(ListExpr* list, EmuEnv* env) {
     auto result = TO_NUMBER(n1) + TO_NUMBER(n2);
     return CREATE_NUMBER_VAL (result);
   }
-  ////////////////////////////
+
+  //////////////////////
+  // Block Operations //
+  //////////////////////
+
+  if (command.compare("begin") == 0)
+    return evaluateBlock(list, env);
+
+  ///////////////////////////
   // Variable Operations ////
   ///////////////////////////
 
   // (var x 100) -> set x to 100
   if (command.compare("var") == 0)
-    return var_cmd(list, env);
+    return var_cmd(list, env, false);
+
+  // Deal with constant declaration.
+  if (command.compare("const") == 0)
+    return var_cmd(list, env, true);
   
-  // (set x (+ x 100)) -> set x to 100 plus the prev value
   if (command.compare("set") == 0)
     return set_cmd(list, env);
 
   
   return evaluateSymbol((Symbol*)first, env);
+}
+
+Value* Interpreter::evaluateBlock (ListExpr* list, EmuEnv* env) {
+  if (list->list.size() < 2)
+    return CREATE_NULL_VAL();
+
+  // Create a new scope and run each expression inside the block.
+  EmuEnv* newScope = new EmuEnv(env);
+  Value* val;
+
+  for (int i = 1; i < list->list.size(); i++)
+    val = evaluate(list->list[i], newScope);
+  
+  return val;
 }

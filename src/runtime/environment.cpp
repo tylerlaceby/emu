@@ -27,13 +27,17 @@ EmuEnv* EmuEnv::findEnv (std::string varname) {
 }
 
 
-void EmuEnv::declareVariable (std::string varname, Value* value) {
-  // check to make sure variable has no scope its declaraed in.
-  if (findEnv(varname) != nullptr) 
-    emu::runtime_exception("Variable with this name already is declared in the current scope. Cannot redeclare variable. Maybe assign it instead?\n", varname.c_str());
+void EmuEnv::declareVariable (std::string varname, Value* value, bool isConstant) {
+  // Add variable if its not in the current scope.
+  if (variables.find(varname) == variables.end()) {
+    if (isConstant)
+      constVars.insert(varname);
+    variables[varname] = value;
   
-  // Define the variable if its not in any scope so far.
-  variables[varname] = value;
+    return;
+  }
+  
+  emu::runtime_exception("Variable with this name already is declared in the current scope. Cannot redeclare variable. Maybe assign it instead?\n", varname.c_str());
 }
 
 Value* EmuEnv::assignVariable (std::string varname, Value* value) {
@@ -41,7 +45,19 @@ Value* EmuEnv::assignVariable (std::string varname, Value* value) {
   // check for a valid scope first.
   if (scope == nullptr) 
     emu::runtime_exception("This variable name has not been declared in this scope or any parent scope. Please declare the variable before trying top assign it.\n", varname.c_str());
-  scope->variables[varname] = value;
+  
+  // Make sure the variable is not a constant before assignment.
+  bool isConstant = scope->constVars.find(varname) != scope->constVars.end();
+  if (!isConstant) {
+    scope->variables[varname] = value;
+    return value;
+  }
+  
+
+  // throw runtime error since variable is a constant.
+  emu::runtime_exception("Variable is of type: constant and cannot be reassigned: ", varname.c_str());
+  
+
 
   return value;
 }

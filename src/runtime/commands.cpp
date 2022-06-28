@@ -3,7 +3,7 @@
 
   
 // (symbol symbol value) or (var varname)
-Value* Interpreter::var_cmd (ListExpr* list, EmuEnv* env) {
+Value* Interpreter::var_cmd (ListExpr* list, EmuEnv* env, bool isConstantValue) {
     std::vector<Node*> args = list->list;
 
     // check for only the command and no varname
@@ -24,8 +24,8 @@ Value* Interpreter::var_cmd (ListExpr* list, EmuEnv* env) {
         val = CREATE_NULL_VAL();
     else val = evaluate (args[2], env);
 
-    // attempt to declare the variable.
-    env->declareVariable (varname, val);
+    // attempt to declare the variable
+    env->declareVariable (varname, val, isConstantValue);
     return val;
 }
 
