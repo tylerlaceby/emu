@@ -13,6 +13,7 @@ namespace emu {
     void throw_error (const char* e1, const char* e2);
     void throw_error (const char* e1);
     void runtime_exception (const char* e1);
+    void runtime_exception (const char* e1, const char* e2);    
     // Handles common IO operations.
     namespace io {
         // Read a file contents to a string.

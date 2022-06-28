@@ -16,6 +16,7 @@ private:
   Value* evaluateLiteral (Node* node, EmuEnv* env);
   Value* evaluateList (ListExpr* list, EmuEnv* env);
   Value* evaluate (Node* node, EmuEnv* env);
+  Value* evaluateSymbol (Symbol* node, EmuEnv* env);
 public:
 
   Value* eval (Node* ast);

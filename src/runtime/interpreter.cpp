@@ -5,7 +5,7 @@
 Value* Interpreter::eval (Node* ast) {
 
   // define the global scope
-  EmuEnv* env = new EmuEnv();
+  EmuEnv* env = CreateGlobalEnvironment();
   return evaluate(ast, env);
 }
 
@@ -38,6 +38,10 @@ Value* Interpreter::evaluateLiteral (Node* node, EmuEnv* env) {
     value = CREATE_NUMBER_VAL(((NumericLiteral*)node)->value);
   else if (type == NodeType::NULLISH) 
     value = CREATE_NULL_VAL();
+
+  else if (type == NodeType::SYMBOL) 
+    value = evaluateSymbol((Symbol*)node, env);
+  
   else if (type == NodeType::BOOLEAN)
     value = CREATE_BOOLEAN_VAL(((BooleanLiteral*)node)->value);
   else 
@@ -46,6 +50,19 @@ Value* Interpreter::evaluateLiteral (Node* node, EmuEnv* env) {
   
 
   return value;
+}
+
+// Performs a lookup for the variable or function. Will throw an error if the value is not valid.
+Value* Interpreter::evaluateSymbol(Symbol* sym, EmuEnv* env) {
+
+// Handle Variable access
+  Value* v = env->find(sym->value);
+  if (v == nullptr) {
+    sym->print();
+    emu::runtime_exception("Undetermined variable or operation found: ", sym->value.c_str());
+  }
+
+  return v;
 }
 
 Value* Interpreter::evaluateList(ListExpr* list, EmuEnv* env) {
@@ -58,12 +75,14 @@ Value* Interpreter::evaluateList(ListExpr* list, EmuEnv* env) {
     for (auto expr : list->list)
       v = evaluate (expr, env);
 
+    // return the last evaluated value.
     return v;
   }
 
-  Symbol symbol = *(Symbol*)first;
+  Symbol command = *(Symbol*)first;
   
-  if (symbol.value.compare("+") == 0) {
+  // TODO ADD THIS AND OTHERS TO LIST OF NATIVE STD LIBRARY FUNCTIONS
+  if (command.value.compare("+") == 0) {
     auto n1 = evaluate (list->list[1], env);
     auto n2 = evaluate (list->list[2], env);
 
@@ -75,8 +94,20 @@ Value* Interpreter::evaluateList(ListExpr* list, EmuEnv* env) {
     }
 
     auto result = TO_NUMBER(n1) + TO_NUMBER(n2);
-    v = CREATE_NUMBER_VAL (result);
+    return CREATE_NUMBER_VAL (result);
   }
 
-  return v;
+  if (command.value.compare("var") == 0) {
+    // add  checks for array bounds, undefined result coming back etc...
+    if (list->list[1]->type != NodeType::SYMBOL)
+      emu::runtime_exception("Expected identifier / variable name to come after variable keyword.\n");
+
+    auto varname = ((Symbol*)(list->list[1]))->value;
+    Value* resultValue = evaluate(list->list[2], env);
+    env->declareVariable(varname, resultValue);
+    return resultValue;
+  }
+
+  
+  return evaluateSymbol(&command, env);
 }

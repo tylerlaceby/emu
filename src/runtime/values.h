@@ -74,6 +74,11 @@ static Value* CREATE_NUMBER_VAL (long double num) {
     return value;
 }
 
+static Value* CREATE_SYMBOL_VAL (long double num) {
+    Value* value = new Value(num);
+    return value;
+}
+
 static Value* CREATE_BOOLEAN_VAL (bool boolean) {
     Value* value = new Value(boolean);
     return value;
