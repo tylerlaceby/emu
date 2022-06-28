@@ -60,7 +60,13 @@ private:
             case ')':
                 addToken(TokenType::RPAREN);
                 break;
-            
+            // Handle single line comments.
+            case '#':
+                while (notEOF() && current() != '\n')
+                    pos++; 
+
+                pos--;
+                break;
             default: {
                     if (isNumeric()) {
                         // build numeric integers

@@ -3,7 +3,10 @@
 #include "../parser/ast.h"
 #include "../emu.h"
 
-// Represents a value at runtime for a emu value.
+////////////////////////////
+//   NATIVE TYPED VALUES  //
+////////////////////////////
+
 typedef enum class ValueType {
     NUMBER,
     BOOLEAN,
@@ -11,27 +14,18 @@ typedef enum class ValueType {
     CUSTOM,
 } ValueType;
 
-// Represents a value at runtime that cannot be held on the stack.
+///////////////////////////
+//  CUSTOM TYPED VALUES  //
+///////////////////////////
+
 typedef enum class ObjectType {
-    // STRING,
     FUNCTION,
-    // STRUCTURE,
-    // ARRAY,
 } ObjectType;
 
-// A dynamic object on the heap. can be a user defined struct, string, or array, function etc...
+// The default class that other values will inherit from.
 struct Object {
     ObjectType kind;
 };
-
-// struct StrObject : public Object {
-//     std::string value;
-
-//     StrObject (std::string str) {
-//         kind = ObjectType::STRING;
-//         value = str;
-//     }
-// };
 
 
 
@@ -60,14 +54,23 @@ struct Value {
     }
 };
 
+/////////////////////////////////
+//   CUSTOM VALUE CONSTRUCTORS  /
+/////////////////////////////////
 
-// CUSTOM VALUE CONSTRUCTORS
 static bool IS_CUSTOM_VAL (Value* v) { return v->type == ValueType::CUSTOM; }
-// Custom object types
+
+///////////////////////////
+//  NATIVE VALUE CHECKS  //
+///////////////////////////
 
 static bool IS_NUMBER (Value* v) { return v->type == ValueType::NUMBER; }
 static bool IS_NULLISH (Value* v) { return v->type == ValueType::NULLISH; }
 static bool IS_BOOLEAN (Value* v) { return v->type == ValueType::BOOLEAN; }
+
+/////////////////////////////////
+//  NATIVE VALUE CONSTRUCTORS  //
+/////////////////////////////////
 
 static Value* CREATE_NUMBER_VAL (long double num) {
     Value* value = new Value(num);
@@ -91,14 +94,18 @@ static Value* CREATE_NULL_VAL () {
 }
 
 
-// GET CVALUES FROM EMUVALUES
+////////////////////////////
+//  NATIVE VALUE GETTERS  //
+////////////////////////////
 
 static long double TO_NUMBER (Value* val) { return val->number; }
 static bool TO_BOOLEAN (Value* val) { return val->boolean; }
 static const char* TO_NULLSTR (Value* val) { return "null"; }
 
 
-// PRINTING
+/////////////////////////////
+//  NATIVE VALUE PRINTING  //
+/////////////////////////////
 
 static void PRINT_EMU_VALUE (Value* value) {
 
