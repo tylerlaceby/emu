@@ -50,6 +50,7 @@
 		"map": "cpp",
 		"optional": "cpp",
 		"xhash": "cpp",
-		"xtree": "cpp"
+		"xtree": "cpp",
+		"filesystem": "cpp"
 	}
 }

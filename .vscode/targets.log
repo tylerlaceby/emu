@@ -1,0 +1,432 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.3
+# Built for x86_64-redhat-linux-gnu
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Wed Jul 13 19:00:36 2022
+
+# Variables
+
+# environment
+GDK_BACKEND = x11
+# environment
+LC_ALL = C
+ 
+# environment
+NO_AT_BRIDGE = 1
+# environment
+VSCODE_CWD = /home/tyler/projects/emu
+# environment
+GDM_LANG = en_US.UTF-8
+# default
+MAKE_COMMAND := make
+# environment
+define BASH_FUNC_which%%
+() {  ( alias;
+ eval ${which_declare} ) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
+}
+endef
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# makefile (from 'makefile', line 2)
+CVERSION = -std=c++17
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# environment
+PWD = /home/tyler/projects/emu
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+HOSTNAME = fedora
+# environment
+MAIL = /var/spool/mail/tyler
+# environment
+XDG_DATA_DIRS = /home/tyler/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+OLDPWD = /home/tyler/projects
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = /home/tyler/.config/Code/CachedData/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a
+# environment
+LANG = C
+# environment
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.7YD7O1
+# default
+.LOADED := 
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# environment
+GNOME_TERMINAL_SERVICE = :1.88
+# makefile
+MAKEFLAGS = pqrR
+# makefile
+CURDIR := /home/tyler/projects/emu
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+LESSOPEN = ||/usr/bin/lesspipe.sh %s
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+MFLAGS = -pqrR
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# default
+.SHELLFLAGS := -c
+# environment
+WAYLAND_DISPLAY = wayland-0
+# environment
+HISTSIZE = 1000
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+XDG_SESSION_DESKTOP = gnome
+# makefile (from 'makefile', line 1)
+MAKEFILE_LIST := makefile
+# automatic
+@F = $(notdir $@)
+# environment
+VSCODE_PID = 3076
+# environment
+XDG_SESSION_TYPE = wayland
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/1987,unix/unix:/tmp/.ICE-unix/1987
+# automatic
+*F = $(notdir $*)
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# default
+MAKE_HOST := x86_64-redhat-linux-gnu
+# makefile
+SHELL = /bin/sh
+# default
+MAKECMDGOALS := all
+# environment
+XMODIFIERS = @im=ibus
+# environment
+DENO_INSTALL = /home/tyler/.deno
+# environment
+SHLVL = 2
+# environment
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/25a7627e_6db0_4a8c_af5d_f32f48552fa7
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = /home/tyler/.deno/bin:/home/tyler/.deno/bin:/home/tyler/.local/bin:/home/tyler/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin
+# default
+MAKEFILES := 
+# automatic
+^F = $(notdir $^)
+# environment
+USERNAME = tyler
+# environment
+GNOME_SETUP_DISPLAY = :1
+# automatic
+?F = $(notdir $?)
+# environment
+XDG_CURRENT_DESKTOP = GNOME
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.m4a=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.oga=01;36:*.opus=01;36:*.spx=01;36:*.xspf=01;36:
+# automatic
++F = $(notdir $+)
+# environment
+DESKTOP_SESSION = gnome
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = GNOME
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+LOGNAME = tyler
+# makefile
+.DEFAULT_GOAL := all
+# environment
+SYSTEMD_EXEC_PID = 2038
+# environment
+HISTCONTROL = ignoredups
+# environment
+EDITOR = /usr/bin/nano
+# environment
+DISPLAY = :0
+# environment
+USER = tyler
+# default
+MAKE_VERSION := 4.3
+# environment
+which_declare = declare -f
+# environment
+DEBUGINFOD_URLS = https://debuginfod.fedoraproject.org/ 
+# makefile (from 'makefile', line 1)
+DEPENDECIES = src/emu.h src/emu.cpp src/lib/* src/parser/* src/runtime/*
+# environment
+_ = /usr/bin/make
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+COLORTERM = truecolor
+# environment
+XDG_SESSION_CLASS = user
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/tyler
+# environment
+QT_IM_MODULE = ibus
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-cd9bd92a-1.69.1-main.sock
+# environment
+TERM = xterm-256color
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# default
+SUFFIXES := 
+# environment
+VSCODE_CLI = 1
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+VTE_VERSION = 6800
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink guile load
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+GDMSESSION = gnome
+# variable set hash-table stats:
+# Load=99/1024=10%, Rehash=0, Collisions=9/134=7%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# src/parser (device 40, inode 41548): 7 files, no impossibilities.
+# . (device 40, inode 41469): 11 files, no impossibilities.
+# src/lib (device 40, inode 41543): 6 files, no impossibilities.
+# src/runtime (device 40, inode 41554): 8 files, no impossibilities.
+
+# 32 files, no impossibilities in 4 directories.
+
+# Implicit Rules
+
+%.o: %.cpp
+#  recipe to execute (from 'makefile', line 5):
+	g++ -c $^
+
+# 1 implicit rules, 0 (0.0%) terminal.
+# Files
+
+# Not a target:
+src/parser/token.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.778559814
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/parser/parser.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.778559814
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/runtime/commands.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.77955981
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/parser/lexer.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.778559814
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/parser/parser.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.778559814
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/runtime/interpreter.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.77955981
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/lib/colors.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.778559814
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/runtime/values.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.77955981
+#  File has been updated.
+#  Successfully updated.
+
+emu: src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-core.h src/lib/io.cpp src/parser/ast.h src/parser/lexer.h src/parser/parser.cpp src/parser/parser.h src/parser/token.h src/runtime/commands.cpp src/runtime/environment.cpp src/runtime/environment.h src/runtime/interpreter.cpp src/runtime/interpreter.h src/runtime/values.h
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  Last modified 2022-07-13 18:59:32.770376458
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := emu
+# automatic
+# * := 
+# automatic
+# < := src/emu.h
+# automatic
+ 
+# + := src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-core.h src/lib/io.cpp src/parser/ast.h src/parser/lexer.h src/parser/parser.cpp src/parser/parser.h src/parser/token.h src/runtime/commands.cpp src/runtime/environment.cpp src/runtime/environment.h src/runtime/interpreter.cpp src/runtime/interpreter.h src/runtime/values.h
+# automatic
+# % := 
+# automatic
+# ^ := src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-core.h src/lib/io.cpp src/parser/ast.h src/parser/lexer.h src/parser/parser.cpp src/parser/parser.h src/parser/token.h src/runtime/commands.cpp src/runtime/environment.cpp src/runtime/environment.h src/runtime/interpreter.cpp src/runtime/interpreter.h src/runtime/values.h
+# automatic
+# ? := src/lib/emu-core.h src/lib/io.cpp
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/14=7%
+#  recipe to execute (from 'makefile', line 8):
+	g++ $(CVERSION) -o $@ $^
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+all: emu
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/4=0%
+
+# Not a target:
+src/lib/emu-core.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.778559814
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/parser/ast.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.778559814
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/emu.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.778559814
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/runtime/environment.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.77955981
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-13 19:00:34.973090804
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/runtime/interpreter.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:15:47.850164005
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/lib/emu-core.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-13 19:00:11.596198156
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/emu.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-13 11:17:08.586694876
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/lib/io.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-13 19:00:29.821114463
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/runtime/environment.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-11 18:14:09.77955981
+#  File has been updated.
+#  Successfully updated.
+
+# files hash-table stats:
+# Load=22/1024=2%, Rehash=0, Collisions=0/53=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 53 / storage = 679 B / avg = 12 B
+# current buf: size = 8162 B / used = 679 B / count = 53 / avg = 12 B
+
+# strcache performance: lookups = 69 / hit rate = 23%
+# hash-table stats:
+# Load=53/8192=1%, Rehash=0, Collisions=0/69=0%
+# Finished Make data base on Wed Jul 13 19:00:36 2022
+
+ 

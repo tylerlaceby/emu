@@ -1,0 +1,5 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/tyler/projects/emu'
+g++ -std=c++17 -o emu src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-core.h src/lib/io.cpp src/parser/ast.h src/parser/lexer.h src/parser/parser.cpp src/parser/parser.h src/parser/token.h src/runtime/commands.cpp src/runtime/environment.cpp src/runtime/environment.h src/runtime/interpreter.cpp src/runtime/interpreter.h src/runtime/values.h
+make: Leaving directory '/home/tyler/projects/emu'
+ 

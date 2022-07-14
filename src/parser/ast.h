@@ -9,12 +9,11 @@
 
 
 typedef enum class NodeType {
-    LIST,
-    STRING,
-    SYMBOL,
-    NUMBER,
-    BOOLEAN,
-    NULLISH,
+    Program,
+    NumericLiteral,
+    BooleanLiteral,
+    Null,
+    Identifier
 } NodeType;
 
 
@@ -22,12 +21,21 @@ struct Node {
     NodeType type;
 };
 
+struct Program : public Node {
+    std::vector<Node*> body;
+
+    Program () {
+        type = NodeType::Program;
+        body = std::vector<Node*>();
+    }
+}; 
+
 
 struct NumericLiteral : public Node {
     long double value;
     NumericLiteral (long double num) {
         value = num;
-        type = NodeType::NUMBER;
+        type = NodeType::NumericLiteral;
     }
 
     void print () {
@@ -39,7 +47,7 @@ struct BooleanLiteral : public Node {
     bool value;
     BooleanLiteral (bool b) {
         value = b;
-        type = NodeType::BOOLEAN;
+        type = NodeType::BooleanLiteral;
     }
 
     void print () {
@@ -51,7 +59,7 @@ struct BooleanLiteral : public Node {
 
 struct Null : public Node {
     Null () {
-        type = NodeType::NULLISH;
+        type = NodeType::Null;
     }
 
     void print () {
@@ -60,11 +68,11 @@ struct Null : public Node {
 };
 
 
-struct Symbol : public Node {
+struct Identifier : public Node {
     std::string value;
-    Symbol (std::string symbol) {
+    Identifier (std::string symbol) {
         value = symbol;
-        type = NodeType::SYMBOL;
+        type = NodeType::Identifier;
     }
 
     void print () {
@@ -73,6 +81,7 @@ struct Symbol : public Node {
 };
 
 
+/*
 struct ListExpr : public Node {
     std::vector<Node*> list;
 
@@ -126,5 +135,7 @@ struct ListExpr : public Node {
         }
     }
 };
+
+*/
 
 #endif

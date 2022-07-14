@@ -20,9 +20,7 @@ public:
         pos = 0;
     }
 
-    ListExpr* parse (std::string sourceCode);
-    ListExpr* parseList ();
-    Node* parseExpression ();
+    Program* parse (std::string& sourceCode);
 };
 
 #endif

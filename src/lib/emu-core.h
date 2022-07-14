@@ -2,6 +2,7 @@
 #define EMU_CORE_LIBRARY
 
 #include <string>
+#include <filesystem>
 #include <iostream>
 #include <stdio.h>
 #include "colors.h"
@@ -9,9 +10,9 @@
 // EMU Language core library and helper methods.
 namespace emu {
     // Throws a error and quit the emu process.
-    void throw_error (const char* e1, const char* e2, const char* e3);
-    void throw_error (const char* e1, const char* e2);
-    void throw_error (const char* e1);
+    void error (const char* e1, const char* e2, const char* e3);
+    void error (const char* e1, const char* e2);
+    void error (const char* e1);
     void runtime_exception (const char* e1);
     void runtime_exception (const char* e1, const char* e2);    
     // Handles common IO operations.

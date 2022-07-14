@@ -25,8 +25,8 @@ private:
     
     // check for characters that cannot be inside a identifier that could come up with bad spacing.
     bool isReserved () {
-        const char c = current ();
-        return (c == ' ' || c == '\n' || c == '(' || c == ')');
+        auto c = current ();
+        return (c == ' ' || c == '\n' || c == '(' || c == ')' || c == '+' || c == '-' || c == '/' || c == '*' || c == ':' || c == '=' || c == '?' || c == '!' || c == '{' || c == '}' || c == '[' || c == ']' || c == '.');
     }
 
 public:
@@ -46,6 +46,13 @@ private:
 
     void addToken (TokenType t) { tokens.push_back(Token(t)); }
 
+    const char peak () {
+        if (pos + 1 >= source.size())
+            emu::error("Lexical error!", "Attempted to read into invalid memory! Unexpected END OF FILE!", &source[source.size() - 1]);
+
+        return source[pos + 1];
+    }
+
     void buildTokens () {
 
         while (notEOF()) {
@@ -55,19 +62,93 @@ private:
             case '\n':
                 break;
             case '(':
-                addToken(TokenType::LPAREN);
+                addToken(TokenType::LParen);
                 break;
             case ')':
-                addToken(TokenType::RPAREN);
+                addToken(TokenType::RParen);
                 break;
-            // Handle single line comments.
+            case '.':
+                addToken(TokenType::Dot);
+                break;
+            case '[':
+                addToken(TokenType::LBracket);
+                break;
+            case ']':
+                addToken(TokenType::RBracket);
+                break;
+            case '{':
+                addToken(TokenType::LBrace);
+                break;
+            case '}':
+                addToken(TokenType::RBrace);
+                break;
+            case '!':
+                addToken(TokenType::Not);
+                break;
+            case ':':
+                addToken(TokenType::Colon);
+                break;
+
+            //////////////////////////////////////////////////////////////
+            // Handle all operators that can have a single or double value
+            //////////////////////////////////////////////////////////////
+
+            case '=':
+                
+                if (peak() == '=') {
+                    addToken(TokenType::DoubleEquals);
+                    pos++;
+                }
+                else addToken(TokenType::Equals);
+                break;
+
+            case '+':
+
+                if (peak() == '+') {
+                    addToken(TokenType::DoublePlus);
+                    pos++;
+                }
+                else addToken(TokenType::Plus);
+                break;
+
+            case '-':
+
+                if (peak() == '-') {
+                    addToken(TokenType::DoubleMinus);
+                    pos++;
+                }
+                else addToken(TokenType::Minus);
+                break;
+
+            case '*':
+
+                if (peak() == '*') {
+                    addToken(TokenType::DoubleAsterisk);
+                    pos++;
+                }
+                else addToken(TokenType::Asterisk);
+                break;
+
+            // Handle single slash. There is zero chance I will add a double slash ever lol!
+            case '/':
+                addToken(TokenType::Slash);
+                break;
+            
+            
+            // # is the beginning of a single line comment. All code and characters up to this point are 
+            // not included inside tokenization.
             case '#':
                 while (notEOF() && current() != '\n')
                     pos++; 
 
+                // After locating the next line of code. We go back a position.
+                // Ensures that upon the next iteration of the loop we will be at the start of the next line.
                 pos--;
                 break;
             default: {
+                    
+                    // Give priotity to the numeric values. Currently this will not include decimal places as those 
+                    // Are not checked for in the inNumeric() method.
                     if (isNumeric()) {
                         // build numeric integers
                         std::string num;
@@ -75,26 +156,52 @@ private:
                         while (notEOF() && isNumeric())
                             num += source[pos++];
 
-                        tokens.push_back(Token(std::stod(num)));
+                        tokens.push_back(Token(std::stold(num)));
                         pos--;
                         break;
                     }
                     
-                    // at this point its a identifier
+                    // at this point the character must be a identifier or a reserved word.
                     std::string ident;
 
                     while (notEOF() && !isReserved())
                         ident += source[pos++];
+
+
+                    if (isReserved() && ident.size() == 0) {
+                        printf("make sure token is added in switch statement as well as Token values: %c\nIdentifier: %s\n", current(), ident.c_str());
+                        emu::error("Unsupported character is inside reserved list but is not handeled.\n");
+                    }
+                    ///////////////////////////
+                    // Check for Literal Values
+                    ///////////////////////////
 
                     if (ident.compare("true") == 0)
                         tokens.push_back(Token(true));
                     else if (ident.compare("false") == 0)
                         tokens.push_back(Token(false));
                     else if (ident.compare("null") == 0)
-                        tokens.push_back(Token(TokenType::NULLISH));
+                        addToken(TokenType::Nullish);
+                    
+                    /////////////////////
+                    // Check for Keywords
+                    /////////////////////
+
+                    else if (ident.compare("let") == 0)
+                        tokens.push_back(Token(TokenType::Let));
+
+                    
+                    //////////////////////////
+                    // Check for Other Symbols
+                    //////////////////////////
+                    
+                    
+                    ///////////////////////////////
+                    // Lastly Assume Identifier.
+                    ///////////////////////////////
                     else  
                         tokens.push_back(Token(ident));
-                        
+                    
                     pos--;
                     break;
                 }
