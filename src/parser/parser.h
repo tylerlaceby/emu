@@ -24,10 +24,13 @@ public:
 
     Program* parse (std::string& sourceCode);
     Statement*  statement ();
+    
+    Statement* variable_declaration_statement ();
+
     Expression* expression ();
 
     Expression* call_expression ();
-
+    Expression* variable_assignment_expression();
     Expression* comparison_expression ();
     Expression* additive_expression ();
     Expression* multiplicative_expression ();

@@ -192,6 +192,8 @@ private:
 
                     else if (ident.compare("let") == 0)
                         tokens.push_back(Token(TokenType::Let));
+                    else if (ident.compare("const") == 0)
+                        tokens.push_back(Token(TokenType::Const));
 
                     
                     //////////////////////////

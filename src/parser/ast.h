@@ -12,6 +12,7 @@
 typedef enum class NodeType {
     Program,
     VariableDeclaration,
+    VariableAssignment,
     CallExression,
     BinaryOperation,
     BooleanLiteral,
@@ -40,6 +41,68 @@ struct Program : public Node {
     }
 }; 
 
+struct VariableDeclaration : public Statement {
+
+    std::string identifier;
+    Expression* value;
+    bool constDeclaration;
+
+    VariableDeclaration (std::string n, Expression* v, bool cnst) {
+        identifier = n;
+        constDeclaration = cnst;
+        value = v;
+        type = NodeType::VariableDeclaration;
+    }
+
+    void print (int depth) {
+
+        rprint(" ", depth);
+        printf("VariableDeclaration: \n");
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("identifier:\x1B[32m %s\n" RST, identifier.c_str());
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        // add magenta coloring as well as rst
+        printf("const: \x1B[35m%s \n" RST, std::string(constDeclaration? "true" : "false").c_str());
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("value: \n");
+        print_ast(value, depth + DEPTH_FACTOR * 3);             
+
+        printf("\n");
+    }
+};
+
+
+struct VariableAssignment : public Expression {
+
+    std::string identifier;
+    Expression* value;
+
+    VariableAssignment (std::string n, Expression* v) {
+        identifier = n;
+        value = v;
+        type = NodeType::VariableAssignment;
+    }
+
+    void print (int depth) {
+
+        rprint(" ", depth);
+        printf("AssignmentExpression: \n");
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("identifier:\x1B[32m %s\n" RST, identifier.c_str());
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("value: \n");
+        print_ast(value, depth + DEPTH_FACTOR * 3);           
+
+        printf("\n");
+    }
+
+};
+
 struct CallExpression : public Expression {
 
     std::vector<Expression*> args;
@@ -53,23 +116,19 @@ struct CallExpression : public Expression {
 
     void print (int depth) {
         rprint(" ", depth);
-        printf("CallExpression: {\n");
+        printf("CallExpression: \n");
 
         rprint(" ", depth + DEPTH_FACTOR);
-        printf("calle: %s\n", name.c_str());
+        printf("calle:\x1B[32m %s\n" RST, name.c_str());
         
         rprint(" ", depth + DEPTH_FACTOR);
-        printf("args: [\n", name.c_str());
+        printf("args: \n", name.c_str());
 
         for (int a = 0; a < args.size(); a++) 
             print_ast(args[a], depth + DEPTH_FACTOR * 2);
-        
 
-        rprint(" ", depth + DEPTH_FACTOR);
-        printf("], \n", name.c_str());
+        printf("\n");
         
-        rprint(" ", depth);
-        printf("}, \n");
     }
 
 };
@@ -114,26 +173,21 @@ struct BinaryExpression : public Expression {
             binop = "divide";
 
         rprint(" ", depth);
-        printf("BinaryOperation: {\n");
+        printf("BinaryOperation: \n");
+
+        // rprint(" ", depth + DEPTH_FACTOR * 2);
+        // printf("left: \n");
+        print_ast(left, DEPTH_FACTOR * 2 + depth);
+
 
         rprint(" ", depth + DEPTH_FACTOR * 2);
-        printf("left: {\n");
-        print_ast(left, DEPTH_FACTOR * 3 + depth);
-        rprint(" ", depth + DEPTH_FACTOR * 2);
-
-        printf("}, \n");
-
-        rprint(" ", depth + DEPTH_FACTOR * 2);
-        printf("operator: %s,\n", binop.c_str());
+        printf("operator:\x1B[33m %s,\n" RST, binop.c_str());
         
-        rprint(" ", depth + DEPTH_FACTOR * 2);
-        printf("right: {\n");
-        print_ast(right, DEPTH_FACTOR * 3 + depth);
-        rprint(" ", depth + DEPTH_FACTOR * 2);
-        printf("}, \n");
+        // rprint(" ", depth + DEPTH_FACTOR * 2);
+        // printf("right: \n");
+        print_ast(right, DEPTH_FACTOR * 2 + depth);
 
-        rprint(" ", depth);
-        printf("}, \n");
+        printf("\n");
     }
 };
 
@@ -172,7 +226,7 @@ struct Null : public LiteralExpression {
     }
 
     void print () {
-       std::cout << "Null: " << F_YELLOW ("null\n");
+       std::cout << F_YELLOW ("null\n");
     }
 };
 
@@ -193,32 +247,29 @@ static void print_ast (Node* s, int depth) {
     switch (s->type) {
     case NodeType::Program:
         printf("\nProgram:\n");
-        printf("body: [\n");
         for (auto stmt : ((Program*)s)->body) {
-            rprint(" ", 2);
-            print_ast(stmt, DEPTH_FACTOR + depth);
+            print_ast(stmt, 1);
         }
-        printf("]\n");
         printf("\n");
         break;
 
     case NodeType::BooleanLiteral:
-        rprint(" ", depth + DEPTH_FACTOR);
+        rprint(" ", depth);
         ((BooleanLiteral*)s)->print();
         break;
 
     case NodeType::Identifier:
-        rprint(" ", depth + DEPTH_FACTOR);
+        rprint(" ", depth);
         ((Identifier*)s)->print();
         break;
 
     case NodeType::Null:
-        rprint(" ", depth + DEPTH_FACTOR);
+        rprint(" ", depth);
         ((Null*)s)->print();
         break;
 
     case NodeType::NumericLiteral:
-        rprint(" ", depth + DEPTH_FACTOR);
+        rprint(" ", depth);
         ((NumericLiteral*)s)->print();
         break;
     case NodeType::BinaryOperation:
@@ -228,6 +279,12 @@ static void print_ast (Node* s, int depth) {
         ((CallExpression*)s)->print(DEPTH_FACTOR + depth);
         break;
 
+    case NodeType::VariableDeclaration:
+        ((VariableDeclaration*)s)->print(depth + DEPTH_FACTOR);
+        break;
+    case NodeType::VariableAssignment:
+        ((VariableAssignment*)s)->print(depth + DEPTH_FACTOR);
+        break;
     default:
         printf("Unimplimented printing operation - ");
         printf(" enum=%d\n", (int)s->type);

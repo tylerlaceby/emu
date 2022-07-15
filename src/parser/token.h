@@ -13,7 +13,7 @@ typedef enum class TokenType {
     Identifier,
     Boolean,
     // Reserved Words
-    Let,
+    Let, Const,
 
     // Reserved  Math Symbols
     Equals,
@@ -106,6 +106,8 @@ struct Token {
 
         else if (type == TokenType::Let) 
             t = "Let";
+        else if (type == TokenType::Const) 
+            t = "Const";
         
         /////////////////////////
         // Reserved Math Keywords

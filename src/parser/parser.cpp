@@ -47,9 +47,8 @@ Program* Parser::parse (std::string& sourceCode) {
 Statement* Parser::statement () {
     switch (current().type) {
     case TokenType::Let:
-        emu::error("Unimplimented variable declaration.");
-        return new Null(); // here to shut compiler up.
-        break;
+    case TokenType::Const:
+        return variable_declaration_statement();
     
     default:
         return expression();
@@ -57,10 +56,30 @@ Statement* Parser::statement () {
 }
 
 
+Statement* Parser::variable_declaration_statement () {
+
+    bool isConst = (eat() == TokenType::Const);
+    auto ident = eat(TokenType::Identifier, "Expectex token to be of type Identifier following let\n").symbol;
+    eat(TokenType::Equals, "Inside var declaration you must provide a default value.\n, Must provide equals sign");
+    auto expr = expression();
+
+    return new VariableDeclaration(ident, expr, isConst);
+}
+
+Expression* Parser::variable_assignment_expression () {
+
+    auto identifier = eat(TokenType::Identifier, "Only identifiers can be on the lhs of a variable assignment.").symbol;
+    eat(); // eat equals;
+    Expression* rhs = expression();
+
+    return new VariableAssignment(identifier, rhs);
+}
+
 Expression* Parser::expression () {
     if (peak() == TokenType::LParen)
         return call_expression ();
-
+    if (peak() == TokenType::Equals)
+        return variable_assignment_expression();
 
     return comparison_expression();
 }
@@ -81,13 +100,11 @@ std::vector<Expression*> Parser::comma_seperated_paren_expression() {
     while (current() != TokenType::RParen && current() != TokenType::ENDFILE) {
 
         callArgs.push_back(expression());
-        current().print();
         if (current() == TokenType::Comma)
             eat();
         else if (current() == TokenType::RParen)
             continue;
         else {
-            printf("current\n");
             current().print();
             // Make sure commas seperate an expression.
             emu::error("Comma seperated lists must have comma seperating the list.");
