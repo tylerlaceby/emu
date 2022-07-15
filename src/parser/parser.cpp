@@ -49,12 +49,27 @@ Statement* Parser::statement () {
     case TokenType::Let:
     case TokenType::Const:
         return variable_declaration_statement();
+
+    case TokenType::LBrace:
+        return block_statement();
     
     default:
         return expression();
     }
 }
 
+Statement* Parser::block_statement () {
+    BlockStatement* stmt = new BlockStatement ();
+    eat (); // left block
+
+    while (current() != TokenType::RBrace && current() != TokenType::ENDFILE)
+        stmt->body.push_back(statement());
+
+    // right block
+    eat(TokenType::RBrace, "Expected closing right brace inside block statement.\n");
+    return stmt;
+
+}
 
 Statement* Parser::variable_declaration_statement () {
 

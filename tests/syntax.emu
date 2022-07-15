@@ -1,4 +1,6 @@
-const r = 45
-let x = null
-x = sqrt(100 * 2)
-x = 45
+{
+    const varname = 100
+    println(this, is, a, block)
+}
+
+let x = varname == null

@@ -13,6 +13,7 @@ typedef enum class NodeType {
     Program,
     VariableDeclaration,
     VariableAssignment,
+    BlockStatement,
     CallExression,
     BinaryOperation,
     BooleanLiteral,
@@ -40,6 +41,26 @@ struct Program : public Node {
         body = std::vector<Node*>();
     }
 }; 
+
+struct BlockStatement : public Statement {
+    std::vector<Statement*> body;
+    BlockStatement () {
+        type = NodeType::BlockStatement;
+        body = std::vector<Statement*>();
+    }
+
+    void print (int depth) {
+
+        rprint(" ", depth);
+        printf("BlockStatement: \n");
+
+        for (auto elem : body)
+            print_ast(elem, depth + DEPTH_FACTOR);
+
+        printf("\n");        
+    }
+
+};
 
 struct VariableDeclaration : public Statement {
 
@@ -181,7 +202,7 @@ struct BinaryExpression : public Expression {
 
 
         rprint(" ", depth + DEPTH_FACTOR * 2);
-        printf("operator:\x1B[33m %s,\n" RST, binop.c_str());
+        printf("operator:\x1B[33m %s\n" RST, binop.c_str());
         
         // rprint(" ", depth + DEPTH_FACTOR * 2);
         // printf("right: \n");
@@ -285,6 +306,12 @@ static void print_ast (Node* s, int depth) {
     case NodeType::VariableAssignment:
         ((VariableAssignment*)s)->print(depth + DEPTH_FACTOR);
         break;
+
+    case NodeType::BlockStatement:
+        ((BlockStatement*)s)->print(depth + DEPTH_FACTOR);
+        break;
+
+
     default:
         printf("Unimplimented printing operation - ");
         printf(" enum=%d\n", (int)s->type);

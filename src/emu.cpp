@@ -22,7 +22,7 @@ int main (const int argc, const char** args) {
     if (repl) {
         std::string buffer;
         std::string code;
-        printf("emu language : version 0.1\n");
+        printf("\nemu language : version 0.1\n");
         while (true) {
             printf(">> ");
             std::getline(std::cin, buffer);

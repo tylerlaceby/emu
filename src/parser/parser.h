@@ -23,10 +23,12 @@ public:
     }
 
     Program* parse (std::string& sourceCode);
+
+private:
     Statement*  statement ();
     
     Statement* variable_declaration_statement ();
-
+    Statement* block_statement ();
     Expression* expression ();
 
     Expression* call_expression ();
