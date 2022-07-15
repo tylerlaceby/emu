@@ -12,6 +12,7 @@
 typedef enum class NodeType {
     Program,
     VariableDeclaration,
+    CallExression,
     BinaryOperation,
     BooleanLiteral,
     Null,
@@ -38,6 +39,40 @@ struct Program : public Node {
         body = std::vector<Node*>();
     }
 }; 
+
+struct CallExpression : public Expression {
+
+    std::vector<Expression*> args;
+    std::string name;
+
+    CallExpression (std::string n, std::vector<Expression*> a) {
+        type = NodeType::CallExression;
+        args = a;
+        name = n;
+    }
+
+    void print (int depth) {
+        rprint(" ", depth);
+        printf("CallExpression: {\n");
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("calle: %s\n", name.c_str());
+        
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("args: [\n", name.c_str());
+
+        for (int a = 0; a < args.size(); a++) 
+            print_ast(args[a], depth + DEPTH_FACTOR * 2);
+        
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("], \n", name.c_str());
+        
+        rprint(" ", depth);
+        printf("}, \n");
+    }
+
+};
 
 struct LiteralExpression : public Expression {};
 
@@ -189,7 +224,10 @@ static void print_ast (Node* s, int depth) {
     case NodeType::BinaryOperation:
         ((BinaryExpression*)s)->print(depth);
         break;
-    
+    case NodeType::CallExression:
+        ((CallExpression*)s)->print(DEPTH_FACTOR + depth);
+        break;
+
     default:
         printf("Unimplimented printing operation - ");
         printf(" enum=%d\n", (int)s->type);

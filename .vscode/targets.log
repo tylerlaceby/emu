@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jul 15 09:52:18 2022
+# Make data base, printed on Fri Jul 15 12:51:36 2022
 
 # Variables
 
@@ -63,7 +63,7 @@ XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.IR70O1
 # default
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
 # environment
-GNOME_TERMINAL_SERVICE = :1.3643
+GNOME_TERMINAL_SERVICE = :1.3912
 # makefile
 MAKEFLAGS = pqrR
 # makefile
@@ -93,7 +93,7 @@ MAKEFILE_LIST := makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 43837
+VSCODE_PID = 51151
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
@@ -123,7 +123,7 @@ DENO_INSTALL = /home/tyler/.deno
 # environment
 SHLVL = 2
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/a75e7214_f57b_46ec_8852_f2cbd2f4c73f
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/440fcfb6_3c74_4a2a_8681_1f7980a86508
 # environment
 MAKELEVEL := 0
 # default
@@ -240,28 +240,28 @@ GDMSESSION = gnome
 # Not a target:
 src/parser/token.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-13 19:13:44.338933607
+#  Last modified 2022-07-15 11:40:26.259186786
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/parser/parser.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-14 15:48:47.438576264
+#  Last modified 2022-07-15 12:45:40.54683129
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/parser/lexer.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-14 00:17:35.991148527
+#  Last modified 2022-07-15 11:40:43.594139152
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/parser/parser.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-14 09:19:43.364554968
+#  Last modified 2022-07-15 12:36:20.466055573
 #  File has been updated.
 #  Successfully updated.
 
@@ -274,7 +274,7 @@ src/lib/colors.h:
 
 emu: src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-core.h src/lib/io.cpp src/parser/ast.h src/parser/lexer.h src/parser/parser.cpp src/parser/parser.h src/parser/token.h src/runtime/interpreter.h
 #  Implicit rule search has not been done.
-#  Last modified 2022-07-15 09:34:51.996242828
+#  Last modified 2022-07-15 12:45:51.095787744
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'makefile', line 8):
@@ -285,6 +285,7 @@ emu: src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-cor
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+ 
 
 all: emu
 #  Command line target.
@@ -303,7 +304,7 @@ src/lib/emu-core.cpp:
 # Not a target:
 src/parser/ast.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-14 16:01:11.90297977
+#  Last modified 2022-07-15 12:42:21.976627756
 #  File has been updated.
 #  Successfully updated.
 
@@ -323,7 +324,6 @@ makefile:
 
 # Not a target:
 src/runtime/interpreter.h:
- 
 #  Implicit rule search has been done.
 #  Last modified 2022-07-13 18:07:10.373275031
 #  File has been updated.
@@ -364,6 +364,6 @@ src/lib/io.cpp:
 # strcache performance: lookups = 58 / hit rate = 25%
 # hash-table stats:
 # Load=43/8192=1%, Rehash=0, Collisions=0/58=0%
-# Finished Make data base on Fri Jul 15 09:52:18 2022
+# Finished Make data base on Fri Jul 15 12:51:36 2022
 
  

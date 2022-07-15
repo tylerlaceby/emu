@@ -28,6 +28,8 @@ typedef enum class TokenType {
     DoubleAsterisk,
 
     // Reserved Symbols
+    Comma,
+
     LBracket,
     RBracket,
     Dot,
@@ -138,6 +140,8 @@ struct Token {
 
         else if (type == TokenType::Dot)
             t = "Dot";
+        else if (type == TokenType::Comma)
+            t = "Comma";
         else if (type == TokenType::Not) 
             t = "Not";
         else if (type == TokenType::Colon) 

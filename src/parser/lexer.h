@@ -26,7 +26,7 @@ private:
     // check for characters that cannot be inside a identifier that could come up with bad spacing.
     bool isReserved () {
         auto c = current ();
-        return (c == ' ' || c == '\n' || c == '(' || c == ')' || c == '+' || c == '-' || c == '/' || c == '*' || c == ':' || c == '=' || c == '?' || c == '!' || c == '{' || c == '}' || c == '[' || c == ']' || c == '.');
+        return (c == ' ' || c == '\n' || c == '(' || c == ')' || c == '+' || c == '-' || c == '/' || c == '*' || c == ':' || c == '=' || c == '?' || c == '!' || c == '{' || c == '}' || c == '[' || c == ']' || c == '.' || c == ',');
     }
 
 public:
@@ -75,6 +75,9 @@ private:
                 break;
             case ']':
                 addToken(TokenType::RBracket);
+                break;
+            case ',':
+                addToken(TokenType::Comma);
                 break;
             case '{':
                 addToken(TokenType::LBrace);

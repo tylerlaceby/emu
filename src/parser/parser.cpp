@@ -59,12 +59,45 @@ Statement* Parser::statement () {
 
 Expression* Parser::expression () {
     if (peak() == TokenType::LParen)
-        emu::error("Have not implimented function calls");
-    
+        return call_expression ();
 
 
     return comparison_expression();
 }
+
+
+Expression* Parser::call_expression () {
+    // calle ...argsList
+    // print (10, a, 10 + 20)
+    auto identifierName = eat(TokenType::Identifier, "Expected a identifier before function call. Instead recieved non identifier.").symbol;
+    auto args = comma_seperated_paren_expression();
+
+    return new CallExpression(identifierName, args);
+}   
+
+std::vector<Expression*> Parser::comma_seperated_paren_expression() {
+    eat(); // Eat left paren.
+    std::vector<Expression*> callArgs = std::vector<Expression*>();
+    while (current() != TokenType::RParen && current() != TokenType::ENDFILE) {
+
+        callArgs.push_back(expression());
+        current().print();
+        if (current() == TokenType::Comma)
+            eat();
+        else if (current() == TokenType::RParen)
+            continue;
+        else {
+            printf("current\n");
+            current().print();
+            // Make sure commas seperate an expression.
+            emu::error("Comma seperated lists must have comma seperating the list.");
+        }
+    }
+
+    eat(TokenType::RParen, "Expected a right paren token.");       
+    return callArgs;
+}
+
 
 Expression* Parser::comparison_expression () {
     Expression* lhs = additive_expression();
@@ -95,7 +128,6 @@ Expression* Parser::additive_expression () {
 
         Expression* right = multiplicative_expression();
         BinaryExpression* bop = new BinaryExpression(lhs, op, right);
-
         lhs = bop;
     }
 
@@ -167,5 +199,4 @@ Expression* Parser::primary_expression () {
 Expression* Parser::parenthesized_expression () {
     emu::error("Unimplimented Parenthesised Expression");
     return new Null();
-
 }

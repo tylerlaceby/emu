@@ -25,12 +25,19 @@ public:
     Program* parse (std::string& sourceCode);
     Statement*  statement ();
     Expression* expression ();
+
+    Expression* call_expression ();
+
     Expression* comparison_expression ();
     Expression* additive_expression ();
     Expression* multiplicative_expression ();
     Expression* primary_expression ();
     LiteralExpression* literal_expression();
     Expression* parenthesized_expression ();
+
+
+    // Helpers
+    std::vector<Expression*> comma_seperated_paren_expression();
 };
 
 #endif
