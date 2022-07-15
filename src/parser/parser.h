@@ -28,10 +28,12 @@ private:
     Statement*  statement ();
     
     Statement* variable_declaration_statement ();
+    Statement* function_declaration_statement ();
     Statement* block_statement ();
     Expression* expression ();
 
     Expression* call_expression ();
+    Expression* object_expression ();
     Expression* variable_assignment_expression();
     Expression* comparison_expression ();
     Expression* additive_expression ();

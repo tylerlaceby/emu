@@ -12,6 +12,7 @@
 typedef enum class NodeType {
     Program,
     VariableDeclaration,
+    FunctionDeclaration,
     VariableAssignment,
     BlockStatement,
     CallExression,
@@ -42,6 +43,7 @@ struct Program : public Node {
     }
 }; 
 
+
 struct BlockStatement : public Statement {
     std::vector<Statement*> body;
     BlockStatement () {
@@ -60,6 +62,42 @@ struct BlockStatement : public Statement {
         printf("\n");        
     }
 
+};
+
+struct FunctionDeclaration : public Statement {
+    std::string identifier;
+    std::vector<std::string> params;
+    BlockStatement* body;
+
+    FunctionDeclaration (std::string ident, BlockStatement* b,std::vector<std::string> p) {
+        body = b;
+        params = p;
+        identifier = ident;
+        type = NodeType::FunctionDeclaration;
+    }
+
+    void print (int depth) {
+
+        rprint(" ", depth);
+        printf("FunctionDeclaration: \n");
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("name:\x1B[32m %s\n" RST, identifier.c_str());
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("args: [ ");
+
+        for (int a = 0; a < params.size(); a++) {
+            printf(KCYN "%s" RST, params[a].c_str());
+            if (a < params.size() - 1)
+                printf(", ");
+            else printf(" ");
+        }
+
+        printf("]\n");
+
+        print_ast(body, depth);     
+    }
 };
 
 struct VariableDeclaration : public Statement {
@@ -311,6 +349,9 @@ static void print_ast (Node* s, int depth) {
         ((BlockStatement*)s)->print(depth + DEPTH_FACTOR);
         break;
 
+    case NodeType::FunctionDeclaration:
+        ((FunctionDeclaration*)s)->print(depth + DEPTH_FACTOR);
+        break;
 
     default:
         printf("Unimplimented printing operation - ");

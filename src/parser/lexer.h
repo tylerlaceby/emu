@@ -194,6 +194,10 @@ private:
                         tokens.push_back(Token(TokenType::Let));
                     else if (ident.compare("const") == 0)
                         tokens.push_back(Token(TokenType::Const));
+                    else if (ident.compare("fn") == 0)
+                        tokens.push_back(Token(TokenType::Fn));
+                    else if (ident.compare("if") == 0)
+                        tokens.push_back(Token(TokenType::If));
 
                     
                     //////////////////////////

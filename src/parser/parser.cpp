@@ -52,10 +52,34 @@ Statement* Parser::statement () {
 
     case TokenType::LBrace:
         return block_statement();
-    
+    case TokenType::Fn:
+        return function_declaration_statement ();
+
     default:
         return expression();
     }
+}
+
+Statement* Parser::function_declaration_statement () {
+    eat();
+
+    std::string ident = eat(TokenType::Identifier, "Must have a named function in declaration").symbol;
+    std::vector<Expression*> params = comma_seperated_paren_expression();
+    std::vector<std::string> verifiedParams;
+    // Verify all args are strings
+    for (auto p : params) {
+        if (p->type != NodeType::Identifier)
+            emu::error("Cannot pass non identifier types into a function declaration.");
+
+
+        std::string s = ((Identifier*)p)->value;
+        verifiedParams.push_back(s);
+    }
+
+
+    auto body = (BlockStatement*)block_statement();
+    FunctionDeclaration* fn = new FunctionDeclaration(ident, body, verifiedParams);
+    return fn;
 }
 
 Statement* Parser::block_statement () {

@@ -1,6 +1,1 @@
-{
-    const varname = 100
-    println(this, is, a, block)
-}
-
-let x = varname == null
+let s = {}
