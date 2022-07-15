@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jul 13 19:00:36 2022
+# Make data base, printed on Fri Jul 15 09:52:18 2022
 
 # Variables
 
@@ -14,7 +14,6 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 GDK_BACKEND = x11
 # environment
 LC_ALL = C
- 
 # environment
 NO_AT_BRIDGE = 1
 # environment
@@ -58,13 +57,13 @@ VSCODE_CODE_CACHE_PATH = /home/tyler/.config/Code/CachedData/b06ae3b2d2dbfe28bca
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.7YD7O1
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.IR70O1
 # default
 .LOADED := 
 # default
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
 # environment
-GNOME_TERMINAL_SERVICE = :1.88
+GNOME_TERMINAL_SERVICE = :1.3643
 # makefile
 MAKEFLAGS = pqrR
 # makefile
@@ -94,13 +93,13 @@ MAKEFILE_LIST := makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 3076
+VSCODE_PID = 43837
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/1987,unix/unix:/tmp/.ICE-unix/1987
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/1986,unix/unix:/tmp/.ICE-unix/1986
 # automatic
 *F = $(notdir $*)
 # environment
@@ -124,7 +123,7 @@ DENO_INSTALL = /home/tyler/.deno
 # environment
 SHLVL = 2
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/25a7627e_6db0_4a8c_af5d_f32f48552fa7
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/a75e7214_f57b_46ec_8852_f2cbd2f4c73f
 # environment
 MAKELEVEL := 0
 # default
@@ -158,7 +157,7 @@ LOGNAME = tyler
 # makefile
 .DEFAULT_GOAL := all
 # environment
-SYSTEMD_EXEC_PID = 2038
+SYSTEMD_EXEC_PID = 2039
 # environment
 HISTCONTROL = ignoredups
 # environment
@@ -214,7 +213,7 @@ XDG_MENU_PREFIX = gnome-
 # environment
 GDMSESSION = gnome
 # variable set hash-table stats:
-# Load=99/1024=10%, Rehash=0, Collisions=9/134=7%
+# Load=99/1024=10%, Rehash=0, Collisions=9/130=7%
 
 # Pattern-specific Variable Values
 
@@ -225,9 +224,9 @@ GDMSESSION = gnome
 # src/parser (device 40, inode 41548): 7 files, no impossibilities.
 # . (device 40, inode 41469): 11 files, no impossibilities.
 # src/lib (device 40, inode 41543): 6 files, no impossibilities.
-# src/runtime (device 40, inode 41554): 8 files, no impossibilities.
+# src/runtime (device 40, inode 66414): 3 files, no impossibilities.
 
-# 32 files, no impossibilities in 4 directories.
+# 27 files, no impossibilities in 4 directories.
 
 # Implicit Rules
 
@@ -241,84 +240,43 @@ GDMSESSION = gnome
 # Not a target:
 src/parser/token.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.778559814
+#  Last modified 2022-07-13 19:13:44.338933607
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/parser/parser.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.778559814
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-src/runtime/commands.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.77955981
+#  Last modified 2022-07-14 15:48:47.438576264
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/parser/lexer.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.778559814
+#  Last modified 2022-07-14 00:17:35.991148527
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/parser/parser.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.778559814
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-src/runtime/interpreter.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.77955981
+#  Last modified 2022-07-14 09:19:43.364554968
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/lib/colors.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.778559814
+#  Last modified 2022-07-11 17:14:09.778559814
 #  File has been updated.
 #  Successfully updated.
 
-# Not a target:
-src/runtime/values.h:
-#  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.77955981
-#  File has been updated.
-#  Successfully updated.
-
-emu: src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-core.h src/lib/io.cpp src/parser/ast.h src/parser/lexer.h src/parser/parser.cpp src/parser/parser.h src/parser/token.h src/runtime/commands.cpp src/runtime/environment.cpp src/runtime/environment.h src/runtime/interpreter.cpp src/runtime/interpreter.h src/runtime/values.h
+emu: src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-core.h src/lib/io.cpp src/parser/ast.h src/parser/lexer.h src/parser/parser.cpp src/parser/parser.h src/parser/token.h src/runtime/interpreter.h
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  Last modified 2022-07-13 18:59:32.770376458
+#  Last modified 2022-07-15 09:34:51.996242828
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := emu
-# automatic
-# * := 
-# automatic
-# < := src/emu.h
-# automatic
- 
-# + := src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-core.h src/lib/io.cpp src/parser/ast.h src/parser/lexer.h src/parser/parser.cpp src/parser/parser.h src/parser/token.h src/runtime/commands.cpp src/runtime/environment.cpp src/runtime/environment.h src/runtime/interpreter.cpp src/runtime/interpreter.h src/runtime/values.h
-# automatic
-# % := 
-# automatic
-# ^ := src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-core.h src/lib/io.cpp src/parser/ast.h src/parser/lexer.h src/parser/parser.cpp src/parser/parser.h src/parser/token.h src/runtime/commands.cpp src/runtime/environment.cpp src/runtime/environment.h src/runtime/interpreter.cpp src/runtime/interpreter.h src/runtime/values.h
-# automatic
-# ? := src/lib/emu-core.h src/lib/io.cpp
-# automatic
-# | := 
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/14=7%
+#  Successfully updated.
 #  recipe to execute (from 'makefile', line 8):
 	g++ $(CVERSION) -o $@ $^
 
@@ -333,100 +291,79 @@ all: emu
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/4=0%
+#  Successfully updated.
 
 # Not a target:
 src/lib/emu-core.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.778559814
+#  Last modified 2022-07-13 18:22:06.066161748
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/parser/ast.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.778559814
+#  Last modified 2022-07-14 16:01:11.90297977
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/emu.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.778559814
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-src/runtime/environment.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.77955981
+#  Last modified 2022-07-11 17:14:09.778559814
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-13 19:00:34.973090804
+#  Last modified 2022-07-13 18:00:34.973090804
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/runtime/interpreter.h:
+ 
 #  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:15:47.850164005
+#  Last modified 2022-07-13 18:07:10.373275031
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/lib/emu-core.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-13 19:00:11.596198156
+#  Last modified 2022-07-13 18:21:30.394325568
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/emu.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-13 11:17:08.586694876
+#  Last modified 2022-07-15 09:34:42.304267124
 #  File has been updated.
 #  Successfully updated.
-
-# Not a target:
-.SUFFIXES:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
 
 # Not a target:
 src/lib/io.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-13 19:00:29.821114463
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-src/runtime/environment.h:
-#  Implicit rule search has been done.
-#  Last modified 2022-07-11 18:14:09.77955981
+#  Last modified 2022-07-13 18:40:28.06210107
 #  File has been updated.
 #  Successfully updated.
 
 # files hash-table stats:
-# Load=22/1024=2%, Rehash=0, Collisions=0/53=0%
+# Load=17/1024=2%, Rehash=0, Collisions=0/42=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 53 / storage = 679 B / avg = 12 B
-# current buf: size = 8162 B / used = 679 B / count = 53 / avg = 12 B
+# strcache buffers: 1 (0) / strings = 43 / storage = 483 B / avg = 11 B
+# current buf: size = 8162 B / used = 483 B / count = 43 / avg = 11 B
 
-# strcache performance: lookups = 69 / hit rate = 23%
+# strcache performance: lookups = 58 / hit rate = 25%
 # hash-table stats:
-# Load=53/8192=1%, Rehash=0, Collisions=0/69=0%
-# Finished Make data base on Wed Jul 13 19:00:36 2022
+# Load=43/8192=1%, Rehash=0, Collisions=0/58=0%
+# Finished Make data base on Fri Jul 15 09:52:18 2022
 
  

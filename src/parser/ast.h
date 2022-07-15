@@ -7,19 +7,28 @@
 #include <stdio.h>
 #include "../emu.h"
 
+#define DEPTH_FACTOR 2
 
 typedef enum class NodeType {
     Program,
-    NumericLiteral,
+    VariableDeclaration,
+    BinaryOperation,
     BooleanLiteral,
     Null,
-    Identifier
+    Identifier,
+    NumericLiteral,
 } NodeType;
 
 
 struct Node {
     NodeType type;
 };
+
+static void print_ast (Node* s, int depth);
+static void rprint (const char* chars, int n);
+
+struct Statement : public Node {};
+struct Expression : public Statement {};
 
 struct Program : public Node {
     std::vector<Node*> body;
@@ -30,8 +39,71 @@ struct Program : public Node {
     }
 }; 
 
+struct LiteralExpression : public Expression {};
 
-struct NumericLiteral : public Node {
+enum BinaryOp {
+    IsEquals, 
+    Add,
+    Subtract,
+    Divide,
+    Multiply,
+};
+
+struct BinaryExpression : public Expression {
+    BinaryOp op;
+    Expression* left;
+    Expression* right;
+    
+    BinaryExpression (Expression* l, BinaryOp o, Expression* r) {
+        if (l == nullptr || r == nullptr)
+            emu::error("Invalid Pointer Access\n", "BinaryOperation () parameters cannot be nullptr\n");
+        
+        left = l;
+        right = r;
+        op = o;
+        type = NodeType::BinaryOperation;  
+    }
+
+    void print (int depth) {
+        std::string binop = "UndefinedBinop";
+
+        if (op == BinaryOp::IsEquals)
+            binop = "==";
+        else if (op == BinaryOp::Add)
+            binop = "add";
+        else if (op == BinaryOp::Subtract)
+            binop = "subtract";
+        else if (op == BinaryOp::Multiply)
+            binop = "multiply";
+        else if (op == BinaryOp::Divide)
+            binop = "divide";
+
+        rprint(" ", depth);
+        printf("BinaryOperation: {\n");
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("left: {\n");
+        print_ast(left, DEPTH_FACTOR * 3 + depth);
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+
+        printf("}, \n");
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("operator: %s,\n", binop.c_str());
+        
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("right: {\n");
+        print_ast(right, DEPTH_FACTOR * 3 + depth);
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("}, \n");
+
+        rprint(" ", depth);
+        printf("}, \n");
+    }
+};
+
+
+struct NumericLiteral : public LiteralExpression {
     long double value;
     NumericLiteral (long double num) {
         value = num;
@@ -39,11 +111,11 @@ struct NumericLiteral : public Node {
     }
 
     void print () {
-        printf(KGRN " %Lf " RST, value);
+        printf("Numeric: " KGRN "%Lf \n" RST, value);
     }
 };
 
-struct BooleanLiteral : public Node {
+struct BooleanLiteral : public LiteralExpression {
     bool value;
     BooleanLiteral (bool b) {
         value = b;
@@ -51,24 +123,26 @@ struct BooleanLiteral : public Node {
     }
 
     void print () {
+        printf("Boolean: ");
         if (value)
-            std::cout << F_BLUE(" true ");
-        else std::cout << F_BLUE(" false ");
+            std::cout << F_MAGENTA("true \n");
+        else std::cout << F_MAGENTA("false \n");
     }
 };
 
-struct Null : public Node {
+
+struct Null : public LiteralExpression {
     Null () {
         type = NodeType::Null;
     }
 
     void print () {
-       std::cout << F_BLUE (" null");
+       std::cout << "Null: " << F_YELLOW ("null\n");
     }
 };
 
 
-struct Identifier : public Node {
+struct Identifier : public LiteralExpression {
     std::string value;
     Identifier (std::string symbol) {
         value = symbol;
@@ -76,66 +150,59 @@ struct Identifier : public Node {
     }
 
     void print () {
-        printf(KYEL " %s " RST, value.c_str());
+        printf("Identifier: " KGRN " %s \n" RST, value.c_str());
     }
 };
 
-
-/*
-struct ListExpr : public Node {
-    std::vector<Node*> list;
-
-    ListExpr () {
-        type = NodeType::LIST;
-        list = std::vector<Node *>();
-    }
-
-    void print (int space = 0) {
-        char spaceChar = ' ';
-        repeatPrint(spaceChar, space);
-        if (list.size() == 0)
-            F_YELLOW("(  )\n");
-        else 
-            printf(KRED "List: \n" RST);
-        
-        for (int i = 0; i < list.size(); i++) {
-            repeatPrint(spaceChar, space + 2);
-            auto expr = list[i];
-            switch (expr->type) {
-            case NodeType::LIST: 
-                ((ListExpr*)expr)->print(space + 2);
-                break;
-            case NodeType::NUMBER: 
-                repeatPrint(spaceChar, space + 2);
-                printf("value:");
-                ((NumericLiteral*)expr)->print();
-                break;
-            case NodeType::SYMBOL: 
-                repeatPrint(spaceChar, space + 2);
-                printf("value:");
-                ((Symbol*)expr)->print();
-                break;
-            case NodeType::NULLISH: 
-                repeatPrint(spaceChar, space + 2);
-                printf("value:");
-                ((Null*)expr)->print();
-                break;
-            case NodeType::BOOLEAN: 
-                repeatPrint(spaceChar, space + 2);
-                printf("value:");
-                ((BooleanLiteral*)expr)->print();
-                break;
-            
-            default:
-                printf("Cannot print unknown NodeType: %d\n", (int)expr->type);
-                break;
-            }
-
-            printf("\n");
+static void print_ast (Node* s, int depth) {
+    switch (s->type) {
+    case NodeType::Program:
+        printf("\nProgram:\n");
+        printf("body: [\n");
+        for (auto stmt : ((Program*)s)->body) {
+            rprint(" ", 2);
+            print_ast(stmt, DEPTH_FACTOR + depth);
         }
-    }
-};
+        printf("]\n");
+        printf("\n");
+        break;
 
-*/
+    case NodeType::BooleanLiteral:
+        rprint(" ", depth + DEPTH_FACTOR);
+        ((BooleanLiteral*)s)->print();
+        break;
+
+    case NodeType::Identifier:
+        rprint(" ", depth + DEPTH_FACTOR);
+        ((Identifier*)s)->print();
+        break;
+
+    case NodeType::Null:
+        rprint(" ", depth + DEPTH_FACTOR);
+        ((Null*)s)->print();
+        break;
+
+    case NodeType::NumericLiteral:
+        rprint(" ", depth + DEPTH_FACTOR);
+        ((NumericLiteral*)s)->print();
+        break;
+    case NodeType::BinaryOperation:
+        ((BinaryExpression*)s)->print(depth);
+        break;
+    
+    default:
+        printf("Unimplimented printing operation - ");
+        printf(" enum=%d\n", (int)s->type);
+        break;
+    }
+
+}
+
+
+static void rprint (const char* c, int n) {
+    for (int i = 0; i < n; i++)
+        printf("%s", c);
+}
+
 
 #endif
