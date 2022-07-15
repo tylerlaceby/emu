@@ -105,23 +105,76 @@ Statement* Parser::variable_declaration_statement () {
     return new VariableDeclaration(ident, expr, isConst);
 }
 
-Expression* Parser::variable_assignment_expression () {
+Expression* Parser::object_expression () {
+    printf("here\n");
+    // start eat of left brace.
+    eat(TokenType::LBrace, "Unknown token found. expected Left Brace {");
 
-    auto identifier = eat(TokenType::Identifier, "Only identifiers can be on the lhs of a variable assignment.").symbol;
-    eat(); // eat equals;
-    Expression* rhs = expression();
+    std::vector<ObjectProperty* > properties;
+        
+    while (current() != TokenType::ENDFILE && current() != TokenType::RBrace) {
 
-    return new VariableAssignment(identifier, rhs);
+        std::string identifier = eat(TokenType::Identifier, "Expected a identifier for the key of a object literal.").symbol;
+        Expression* val;
+        bool shorthand = false;
+
+        // check for shorthand.
+        if (current() == TokenType::Comma || current() == TokenType::RBrace) {
+            shorthand = true;
+            val = new Null();
+        } else {
+            eat(TokenType::Colon, "Expected a colon and second arguments for Object LIteral");
+            val = expression();
+        }
+        // handle trailing commas {x: 10,} as well as commas from shorthand statements.
+        if (current() == TokenType::Comma) eat();
+
+        ObjectProperty* obj = new ObjectProperty (identifier, shorthand, val);
+        properties.push_back(obj);
+    }
+
+    eat(TokenType::RBrace, "Expected a ending right brace.");
+    return new ObjectExpression(properties);
 }
 
-Expression* Parser::expression () {
-    if (peak() == TokenType::LParen)
-        return call_expression ();
-    if (peak() == TokenType::Equals)
-        return variable_assignment_expression();
 
-    return comparison_expression();
-}
+    /*// Member expression is a object.key
+    Expression* parseMemberExpression () {
+        if (peak () == TokenType::DOT) {
+            Expression* object = parsePrimaryExpression();
+            eat(TokenType::DOT);
+            // allows say: x.y.z  = ... Multiple nexted objects.
+            Expression* property = parseMemberExpression();
+            
+            MemberExpression* member = new MemberExpression (object, property);
+            return member;
+
+        } else return parseObjectExpression();
+    }
+
+    */
+    Expression* Parser::variable_assignment_expression () {
+
+        auto identifier = eat(TokenType::Identifier, "Only identifiers can be on the lhs of a variable assignment.").symbol;
+        eat(); // eat equals;
+        Expression* rhs = expression();
+
+        return new VariableAssignment(identifier, rhs);
+    }
+
+    Expression* Parser::expression () {
+        if (peak() == TokenType::LParen)
+            return call_expression ();
+        else if (peak() == TokenType::Equals)
+            return variable_assignment_expression();
+
+
+        // Handle tokens where the current determines the path ahead.
+        else if (current() == TokenType::LBrace)
+            return object_expression();
+
+        else return comparison_expression();
+    }
 
 
 Expression* Parser::call_expression () {

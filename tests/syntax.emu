@@ -1,1 +1,19 @@
-let s = {}
+fn Circle (r) {
+    # This is a private variable
+    let radius = r
+
+    # Method that returns the area. No need to type return.
+    fn area () {
+        area = PI * radius * radius
+    }
+
+    #Prints the basic info for the circle
+    fn printCircle () {
+        println (area, radius)
+    }
+
+    # return value
+    let returnInfo = {
+        area, radius, printCircle
+    }
+}

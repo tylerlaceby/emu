@@ -13,6 +13,8 @@ typedef enum class NodeType {
     Program,
     VariableDeclaration,
     FunctionDeclaration,
+    ObjectExpression,
+    ObjectProperty,
     VariableAssignment,
     BlockStatement,
     CallExression,
@@ -42,6 +44,53 @@ struct Program : public Node {
         body = std::vector<Node*>();
     }
 }; 
+
+struct ObjectProperty : public Expression {
+    std::string key;
+    bool shorthand;
+    Expression* rhs;
+
+    ObjectProperty (std::string k, bool sh, Expression* v) {
+        rhs = v;
+        shorthand = sh;
+        key = k;
+        type = NodeType::ObjectProperty;
+    }
+
+    void print (int depth) {
+        rprint(" ", depth);
+        printf("Property:\n");
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("key:\x1B[32m %s\n" RST, key.c_str());
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("shorthand:\x1B[36m %s\n" RST, shorthand? "true":"false");
+
+        if (!shorthand)
+            print_ast(rhs, depth + DEPTH_FACTOR);
+
+        printf("\n");
+    }
+};
+
+struct ObjectExpression : public Expression {
+    std::vector<ObjectProperty*> properties;
+
+    ObjectExpression(std::vector<ObjectProperty*> props) {
+        properties = props;
+        type = NodeType::ObjectExpression;
+    }
+
+    void print (int depth) {
+        rprint(" ", depth);
+        printf("ObjectExpression: \n");
+        for (auto prop : properties)
+            print_ast(prop, depth + DEPTH_FACTOR);
+
+        printf("\n");
+    }
+};
 
 
 struct BlockStatement : public Statement {
@@ -124,10 +173,8 @@ struct VariableDeclaration : public Statement {
         rprint(" ", depth + DEPTH_FACTOR * 2);
         // add magenta coloring as well as rst
         printf("const: \x1B[35m%s \n" RST, std::string(constDeclaration? "true" : "false").c_str());
-
-        rprint(" ", depth + DEPTH_FACTOR * 2);
-        printf("value: \n");
-        print_ast(value, depth + DEPTH_FACTOR * 3);             
+        
+        print_ast(value, depth + DEPTH_FACTOR * 2);             
 
         printf("\n");
     }
@@ -351,6 +398,14 @@ static void print_ast (Node* s, int depth) {
 
     case NodeType::FunctionDeclaration:
         ((FunctionDeclaration*)s)->print(depth + DEPTH_FACTOR);
+        break;
+
+    case NodeType::ObjectExpression:
+        ((ObjectExpression*)s)->print(depth + DEPTH_FACTOR);
+        break;
+
+    case NodeType::ObjectProperty:
+        ((ObjectProperty*)s)->print(depth + DEPTH_FACTOR);
         break;
 
     default:

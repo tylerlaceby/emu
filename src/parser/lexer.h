@@ -185,6 +185,12 @@ private:
                         tokens.push_back(Token(false));
                     else if (ident.compare("null") == 0)
                         addToken(TokenType::Nullish);
+
+                    // Dual Purpose Keywords
+                    else if (ident.compare("be") == 0)
+                        addToken(TokenType::Equals);
+                    else if (ident.compare("equals") == 0)
+                        addToken(TokenType::DoubleEquals);
                     
                     /////////////////////
                     // Check for Keywords
@@ -196,7 +202,7 @@ private:
                         tokens.push_back(Token(TokenType::Const));
                     else if (ident.compare("fn") == 0)
                         tokens.push_back(Token(TokenType::Fn));
-                    else if (ident.compare("if") == 0)
+                    else if (ident.compare("_if") == 0)
                         tokens.push_back(Token(TokenType::If));
 
                     
