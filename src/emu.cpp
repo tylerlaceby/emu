@@ -1,7 +1,6 @@
 #include "emu.h"
 #include "parser/parser.h"
 #include "runtime/interpreter.h"
-
 #include <string.h>
 
 //
@@ -16,6 +15,7 @@ int main (const int argc, const char** args) {
         if (strcmp(args[i], "--repl") == 0)
             repl = true;
     }
+
 
     Parser parser;
     Program* program;

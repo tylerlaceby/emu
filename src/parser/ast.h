@@ -183,11 +183,11 @@ struct VariableDeclaration : public Statement {
 
 struct VariableAssignment : public Expression {
 
-    std::string identifier;
+    Expression* assigne;
     Expression* value;
 
-    VariableAssignment (std::string n, Expression* v) {
-        identifier = n;
+    VariableAssignment (Expression* assigneExpr, Expression* v) {
+        assigne = assigneExpr;
         value = v;
         type = NodeType::VariableAssignment;
     }
@@ -198,11 +198,11 @@ struct VariableAssignment : public Expression {
         printf("AssignmentExpression: \n");
 
         rprint(" ", depth + DEPTH_FACTOR * 2);
-        printf("identifier:\x1B[32m %s\n" RST, identifier.c_str());
-
-        rprint(" ", depth + DEPTH_FACTOR * 2);
         printf("value: \n");
-        print_ast(value, depth + DEPTH_FACTOR * 3);           
+        print_ast (assigne, depth + DEPTH_FACTOR * 3);
+
+
+        print_ast(value, depth + DEPTH_FACTOR * 2);           
 
         printf("\n");
     }
@@ -212,12 +212,12 @@ struct VariableAssignment : public Expression {
 struct CallExpression : public Expression {
 
     std::vector<Expression*> args;
-    std::string name;
+    Expression* calle;
 
-    CallExpression (std::string n, std::vector<Expression*> a) {
+    CallExpression (Expression* _c, std::vector<Expression*> _a) {
         type = NodeType::CallExression;
-        args = a;
-        name = n;
+        args = _a;
+        calle = _c;
     }
 
     void print (int depth) {
@@ -225,10 +225,11 @@ struct CallExpression : public Expression {
         printf("CallExpression: \n");
 
         rprint(" ", depth + DEPTH_FACTOR);
-        printf("calle:\x1B[32m %s\n" RST, name.c_str());
+        printf("\x1B[32mcalle:\n" RST);
+        print_ast(calle, depth + DEPTH_FACTOR * 2);
         
         rprint(" ", depth + DEPTH_FACTOR);
-        printf("args: \n", name.c_str());
+        printf("args: \n");
 
         for (int a = 0; a < args.size(); a++) 
             print_ast(args[a], depth + DEPTH_FACTOR * 2);

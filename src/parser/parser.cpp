@@ -105,13 +105,72 @@ Statement* Parser::variable_declaration_statement () {
     return new VariableDeclaration(ident, expr, isConst);
 }
 
-Expression* Parser::object_expression () {
-    printf("here\n");
-    // start eat of left brace.
-    eat(TokenType::LBrace, "Unknown token found. expected Left Brace {");
 
-    std::vector<ObjectProperty* > properties;
-        
+    /*// Member expression is a object.key
+    Expression* parseMemberExpression () {
+        if (peak () == TokenType::DOT) {
+            Expression* object = parsePrimaryExpression();
+            eat(TokenType::DOT);
+            // allows say: x.y.z  = ... Multiple nexted objects.
+            Expression* property = parseMemberExpression();
+            
+            MemberExpression* member = new MemberExpression (object, property);
+            return member;
+
+        } else return parseObjectExpression();
+    }
+    */
+
+/* 
+* expression
+* assignment-expr
+* call-expr
+* member-expression
+* object-expression
+* cpmparison
+* multiplicatave
+* additive
+* primary
+* grouped
+* literal
+*/
+Expression* Parser::expression () {
+    return variable_assignment_expression();
+}
+
+
+Expression* Parser::variable_assignment_expression () {
+    Expression* assigne = call_expression();
+
+    // Handle case where no assignment takes place.
+    if (current() != TokenType::Equals)
+        return assigne;
+
+    eat(); // eat equals;
+    Expression* rhs = expression();
+    return new VariableAssignment(assigne, rhs);
+}
+
+
+Expression* Parser::call_expression () {
+    Expression* calle = object_expression ();
+
+    if (current() != TokenType::LParen)
+        return calle;
+
+    auto args = comma_seperated_paren_expression();
+    return new CallExpression(calle, args);
+}   
+
+
+Expression* Parser::object_expression () {
+
+    if (current() != TokenType::LBrace)
+        return comparison_expression(); 
+
+    eat();
+
+    std::vector<ObjectProperty* > properties; 
     while (current() != TokenType::ENDFILE && current() != TokenType::RBrace) {
 
         std::string identifier = eat(TokenType::Identifier, "Expected a identifier for the key of a object literal.").symbol;
@@ -138,56 +197,8 @@ Expression* Parser::object_expression () {
 }
 
 
-    /*// Member expression is a object.key
-    Expression* parseMemberExpression () {
-        if (peak () == TokenType::DOT) {
-            Expression* object = parsePrimaryExpression();
-            eat(TokenType::DOT);
-            // allows say: x.y.z  = ... Multiple nexted objects.
-            Expression* property = parseMemberExpression();
-            
-            MemberExpression* member = new MemberExpression (object, property);
-            return member;
-
-        } else return parseObjectExpression();
-    }
-
-    */
-    Expression* Parser::variable_assignment_expression () {
-
-        auto identifier = eat(TokenType::Identifier, "Only identifiers can be on the lhs of a variable assignment.").symbol;
-        eat(); // eat equals;
-        Expression* rhs = expression();
-
-        return new VariableAssignment(identifier, rhs);
-    }
-
-    Expression* Parser::expression () {
-        if (peak() == TokenType::LParen)
-            return call_expression ();
-        else if (peak() == TokenType::Equals)
-            return variable_assignment_expression();
-
-
-        // Handle tokens where the current determines the path ahead.
-        else if (current() == TokenType::LBrace)
-            return object_expression();
-
-        else return comparison_expression();
-    }
-
-
-Expression* Parser::call_expression () {
-    // calle ...argsList
-    // print (10, a, 10 + 20)
-    auto identifierName = eat(TokenType::Identifier, "Expected a identifier before function call. Instead recieved non identifier.").symbol;
-    auto args = comma_seperated_paren_expression();
-
-    return new CallExpression(identifierName, args);
-}   
-
 std::vector<Expression*> Parser::comma_seperated_paren_expression() {
-    eat(); // Eat left paren.
+    eat(TokenType::LParen, "Expected a Left Parenthesis token for comma seperated list."); // Eat left paren.
     std::vector<Expression*> callArgs = std::vector<Expression*>();
     while (current() != TokenType::RParen && current() != TokenType::ENDFILE) {
 
@@ -210,7 +221,7 @@ std::vector<Expression*> Parser::comma_seperated_paren_expression() {
 
 Expression* Parser::comparison_expression () {
     Expression* lhs = additive_expression();
-
+    
     while (current() == TokenType::DoubleEquals) {
         BinaryOp operation;
         auto c = eat().type;
@@ -262,7 +273,6 @@ Expression* Parser::multiplicative_expression () {
 }
 
 LiteralExpression* Parser::literal_expression () {
-
     switch (current().type) {
     case TokenType::Numeric:
         return new NumericLiteral(eat().number);
@@ -283,7 +293,6 @@ LiteralExpression* Parser::literal_expression () {
 }
 
 Expression* Parser::primary_expression () {
-
     switch (current().type) {
     case TokenType::Nullish:
     case TokenType::Numeric:
