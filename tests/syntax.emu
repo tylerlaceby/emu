@@ -1,1 +1,5 @@
-fib (100, 10)
+let x = fib(45, y = {
+    pos: {
+        x,y,z
+    }, valid: true,
+})
