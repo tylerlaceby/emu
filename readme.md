@@ -27,7 +27,7 @@ let person = {
   isDev: true,
   blank: {},
   nested: {
-    foo: "Bar:,
+    foo: "Bar":,
     n, This will capture the value of n defined above.
     # its the same as n: n
   },
