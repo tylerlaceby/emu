@@ -1,4 +1,6 @@
 
+if (person.age.now() >= 20)
+    println(older)
+else exit(1)
 
-
-let result = (isNumber(x) == true)
+person.age.now()

@@ -129,15 +129,15 @@ Statement* Parser::variable_declaration_statement () {
 /* 
 * expression
 * assignment-expr
-* call-expr
-* member-expression
-* object-expression
 * or-expression
 * and-expression
 * comparison
 * multiplicatave
-* unary
 * additive
+* unary
+* call-expression
+* member-expression
+* object-expression
 * primary
 * grouped
 * literal
@@ -148,21 +148,20 @@ Expression* Parser::expression () {
 
 
 Expression* Parser::variable_assignment_expression () {
-    Expression* assigne = call_expression();
-
+    Expression* assigne = or_expression();
     // Handle case where no assignment takes place.
     if (current() != TokenType::Equals)
         return assigne;
 
     eat(); // eat equals;
-    Expression* rhs = expression();
+    Expression* rhs = or_expression();
     return new VariableAssignment(assigne, rhs);
 }
 
 
 Expression* Parser::call_expression () {
     Expression* calle = member_expression();
-
+    
     if (current() != TokenType::LParen)
         return calle;
 
@@ -188,7 +187,7 @@ Expression* Parser::member_expression () {
 Expression* Parser::object_expression () {
 
     if (current() != TokenType::LBrace)
-        return or_expression();
+        return primary_expression();
 
     eat();
 
@@ -205,7 +204,7 @@ Expression* Parser::object_expression () {
             val = new Null();
         } else {
             eat(TokenType::Colon, "Expected a colon and second arguments for Object LIteral");
-            val = expression();
+            val = expression(); // THIS COULD BE ALOT LOWER DOWN?
         }
         // handle trailing commas {x: 10,} as well as commas from shorthand statements.
         if (current() == TokenType::Comma) eat();
@@ -249,11 +248,11 @@ Expression* Parser::unary_expression () {
             op = UnaryOp::Not;
         else op = UnaryOp::Inverse;
 
-        Expression* term = unary_expression();
+        Expression* term = call_expression();
         return new UnaryExpression (op, term);
     } 
     
-    return primary_expression();
+    return call_expression();
 }
 
 Expression* Parser::or_expression () {
