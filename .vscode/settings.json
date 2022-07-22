@@ -68,6 +68,7 @@
 		"string_view": "cpp",
 		"iomanip": "cpp",
 		"numbers": "cpp",
-		"sstream": "cpp"
+		"sstream": "cpp",
+		"cinttypes": "cpp"
 	}
 }

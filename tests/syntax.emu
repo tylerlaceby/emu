@@ -1,6 +1,32 @@
 
-if (person.age.now() >= 20)
-    println(older)
-else exit(1)
+fn Color (r) {
 
-person.age.now()
+    let radius = r
+    let diameter = radius * 2
+
+    if (!isNumber(r))
+        radius = 10
+
+
+    fn area () { Math.square(radius) * Math.PI }
+    fn circumference () {
+        diameter = radius * 2
+        Math.PI * diameter
+    }
+
+    fn setRadius (_r) {
+        radius = _r
+    }
+
+    let returnType = {
+        area, circumference, setRadius 
+    }
+}
+
+
+const circle = Circle (100)
+circle.area()
+
+if (circle.circumference() > 10)
+    emu.exit(0)
+else circle.setRadius(1000)

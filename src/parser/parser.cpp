@@ -139,8 +139,8 @@ Statement* Parser::variable_declaration_statement () {
 * member-expression
 * object-expression
 * primary
-* grouped
 * literal
+* grouped
 */
 Expression* Parser::expression () {
     return variable_assignment_expression();
@@ -159,101 +159,6 @@ Expression* Parser::variable_assignment_expression () {
 }
 
 
-Expression* Parser::call_expression () {
-    Expression* calle = member_expression();
-    
-    if (current() != TokenType::LParen)
-        return calle;
-
-    auto args = comma_seperated_paren_expression();
-    return new CallExpression(calle, args);
-}   
-
-
-// Member expression is a object.key
-Expression* Parser::member_expression () {
-    Expression* object = object_expression();
-    while (current() == TokenType::Dot) {
-        eat();
-        Expression* property = object_expression();
-        object = new MemberExpression (object, property);
-    }
-    
-
-    return object;
-}
-    
-
-Expression* Parser::object_expression () {
-
-    if (current() != TokenType::LBrace)
-        return primary_expression();
-
-    eat();
-
-    std::vector<ObjectProperty* > properties; 
-    while (current() != TokenType::ENDFILE && current() != TokenType::RBrace) {
-
-        std::string identifier = eat(TokenType::Identifier, "Expected a identifier for the key of a object literal.").symbol;
-        Expression* val;
-        bool shorthand = false;
-
-        // check for shorthand.
-        if (current() == TokenType::Comma || current() == TokenType::RBrace) {
-            shorthand = true;
-            val = new Null();
-        } else {
-            eat(TokenType::Colon, "Expected a colon and second arguments for Object LIteral");
-            val = expression(); // THIS COULD BE ALOT LOWER DOWN?
-        }
-        // handle trailing commas {x: 10,} as well as commas from shorthand statements.
-        if (current() == TokenType::Comma) eat();
-
-        ObjectProperty* obj = new ObjectProperty (identifier, shorthand, val);
-        properties.push_back(obj);
-    }
-
-    eat(TokenType::RBrace, "Expected a ending right brace.");
-    return new ObjectExpression(properties);
-}
-
-
-std::vector<Expression*> Parser::comma_seperated_paren_expression() {
-    eat(TokenType::LParen, "Expected a Left Parenthesis token for comma seperated list."); // Eat left paren.
-    std::vector<Expression*> callArgs = std::vector<Expression*>();
-    while (current() != TokenType::RParen && current() != TokenType::ENDFILE) {
-
-        callArgs.push_back(expression());
-        if (current() == TokenType::Comma)
-            eat();
-        else if (current() == TokenType::RParen)
-            continue;
-        else {
-            current().print();
-            // Make sure commas seperate an expression.
-            emu::error("Comma seperated lists must have comma seperating the list.");
-        }
-    }
-
-    eat(TokenType::RParen, "Expected a right paren token.");       
-    return callArgs;
-}
-
-Expression* Parser::unary_expression () {
-    if (current() == TokenType::Not || current() == TokenType::Minus) {
-        UnaryOp op;
-        auto o = eat();
-
-        if (o == TokenType::Not)
-            op = UnaryOp::Not;
-        else op = UnaryOp::Inverse;
-
-        Expression* term = call_expression();
-        return new UnaryExpression (op, term);
-    } 
-    
-    return call_expression();
-}
 
 Expression* Parser::or_expression () {
     Expression* lhs = and_expression();
@@ -353,24 +258,100 @@ Expression* Parser::multiplicative_expression () {
 
 }
 
-LiteralExpression* Parser::literal_expression () {
-    switch (current().type) {
-    case TokenType::Numeric:
-        return new NumericLiteral(eat().number);
-    case TokenType::Nullish:
-        eat();
-        return new Null();
-    case TokenType::Boolean:
-        return new BooleanLiteral(eat().boolean);
-    case TokenType::Identifier:
-        return new Identifier(eat().symbol);
-    default:
-        current().print();
-        emu::error("Parser Error!\n", "Expected Token to be of type LITERAL.");
-        return new Null();
-        break;
+
+Expression* Parser::unary_expression () {
+    if (current() == TokenType::Not || current() == TokenType::Minus) {
+        UnaryOp op;
+        auto o = eat();
+
+        if (o == TokenType::Not)
+            op = UnaryOp::Not;
+        else op = UnaryOp::Inverse;
+
+        Expression* term = call_expression();
+        return new UnaryExpression (op, term);
+    } 
+    
+    return call_expression();
+}
+
+Expression* Parser::call_expression () {
+    Expression* calle = member_expression();
+    
+    if (current() != TokenType::LParen)
+        return calle;
+
+    auto args = comma_seperated_paren_expression();
+    return new CallExpression(calle, args);
+}  
+
+
+std::vector<Expression*> Parser::comma_seperated_paren_expression() {
+    eat(TokenType::LParen, "Expected a Left Parenthesis token for comma seperated list."); // Eat left paren.
+    std::vector<Expression*> callArgs = std::vector<Expression*>();
+    while (current() != TokenType::RParen && current() != TokenType::ENDFILE) {
+
+        callArgs.push_back(expression());
+        if (current() == TokenType::Comma)
+            eat();
+        else if (current() == TokenType::RParen)
+            continue;
+        else {
+            current().print();
+            // Make sure commas seperate an expression.
+            emu::error("Comma seperated lists must have comma seperating the list.");
+        }
     }
 
+    eat(TokenType::RParen, "Expected a right paren token.");       
+    return callArgs;
+}
+
+
+// Member expression is a object.key
+Expression* Parser::member_expression () {
+    Expression* object = object_expression();
+    while (current() == TokenType::Dot) {
+        eat();
+        Expression* property = object_expression();
+        object = new MemberExpression (object, property);
+    }
+    
+
+    return object;
+}
+    
+
+Expression* Parser::object_expression () {
+
+    if (current() != TokenType::LBrace)
+        return primary_expression();
+
+    eat();
+    std::vector<ObjectProperty* > properties; 
+    while (current() != TokenType::ENDFILE && current() != TokenType::RBrace) {
+
+        std::string identifier = eat(TokenType::Identifier, "Expected a identifier for the key of a object literal.").symbol;
+        Expression* val;
+        bool shorthand = false;
+
+        // check for shorthand.
+        if (current() == TokenType::Comma || current() == TokenType::RBrace) {
+            shorthand = true;
+            val = new Null();
+        } else {
+            eat(TokenType::Colon, "Expected a colon and second arguments for Object LIteral");
+            val = expression(); // THIS COULD BE ALOT LOWER DOWN?
+        }
+        // handle trailing commas {x: 10,} as well as commas from shorthand statements.
+        if (current() == TokenType::Comma) eat();
+
+        ObjectProperty* obj = new ObjectProperty (identifier, shorthand, val);
+        properties.push_back(obj);
+    }
+
+    eat(TokenType::RBrace, "Expected a ending right brace.");
+    return new ObjectExpression(properties);
 }
 
 Expression* Parser::primary_expression () {
@@ -391,6 +372,27 @@ Expression* Parser::primary_expression () {
         return new Null();
     }
     
+
+}
+
+
+LiteralExpression* Parser::literal_expression () {
+    switch (current().type) {
+    case TokenType::Numeric:
+        return new NumericLiteral(eat().number);
+    case TokenType::Nullish:
+        eat();
+        return new Null();
+    case TokenType::Boolean:
+        return new BooleanLiteral(eat().boolean);
+    case TokenType::Identifier:
+        return new Identifier(eat().symbol);
+    default:
+        current().print();
+        emu::error("Parser Error!\n", "Expected Token to be of type LITERAL.");
+        return new Null();
+        break;
+    }
 
 }
 
