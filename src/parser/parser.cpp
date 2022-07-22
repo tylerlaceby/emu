@@ -49,7 +49,8 @@ Statement* Parser::statement () {
     case TokenType::Let:
     case TokenType::Const:
         return variable_declaration_statement();
-
+    case TokenType::If:
+        return if_statement ();
     case TokenType::LBrace:
         return block_statement();
     case TokenType::Fn:
@@ -77,9 +78,27 @@ Statement* Parser::function_declaration_statement () {
     }
 
 
-    auto body = (BlockStatement*)block_statement();
+    auto body = (BlockStatement*) block_statement();
     FunctionDeclaration* fn = new FunctionDeclaration(ident, body, verifiedParams);
     return fn;
+}
+
+Statement* Parser::if_statement () {
+    // Eat if token.
+    eat(); 
+    eat(TokenType::LParen, "Expected left paren inside if statement.");
+    Expression* condition = expression();
+    eat(TokenType::RParen, "Expected closing right paren inside if statement.");
+
+    
+    Statement* truthyBlock = statement();
+    Statement* elseBlock = NULL;
+    if (current() == TokenType::Else) {
+        eat(); // eat else.
+        elseBlock = statement();
+    }
+    
+    return new IfStatement(condition, truthyBlock, elseBlock);
 }
 
 Statement* Parser::block_statement () {
@@ -113,7 +132,9 @@ Statement* Parser::variable_declaration_statement () {
 * call-expr
 * member-expression
 * object-expression
-* cpmparison
+* or-expression
+* and-expression
+* comparison
 * multiplicatave
 * unary
 * additive
@@ -167,7 +188,7 @@ Expression* Parser::member_expression () {
 Expression* Parser::object_expression () {
 
     if (current() != TokenType::LBrace)
-        return comparison_expression(); 
+        return or_expression();
 
     eat();
 
@@ -235,13 +256,42 @@ Expression* Parser::unary_expression () {
     return primary_expression();
 }
 
+Expression* Parser::or_expression () {
+    Expression* lhs = and_expression();
+
+    while (current() == TokenType::Or ) {
+        eat();
+        BinaryOp operation = BinaryOp::Or;
+        Expression* rhs = and_expression();
+        BinaryExpression* bop = new BinaryExpression (lhs, operation, rhs);
+        lhs = bop;
+    }
+
+    return lhs;
+}
+
+
+Expression* Parser::and_expression () {
+    Expression* lhs = comparison_expression();
+    
+    while (current() == TokenType::And ) {
+        eat();
+        BinaryOp operation = BinaryOp::And;
+        Expression* rhs = comparison_expression();
+        BinaryExpression* bop = new BinaryExpression (lhs, operation, rhs);
+        lhs = bop;
+    }
+
+    return lhs;
+}
+
+
 Expression* Parser::comparison_expression () {
     Expression* lhs = additive_expression();
     
     while (current() == TokenType::DoubleEquals || current() == TokenType::NotEquals
         || current() == TokenType::LessThan     || current() == TokenType::LessThanEq 
-        || current() == TokenType::GreaterThan  || current() == TokenType::GreaterThanEq
-        || current() == TokenType::Or           || current() == TokenType::And ) {
+        || current() == TokenType::GreaterThan  || current() == TokenType::GreaterThanEq) {
         
         BinaryOp operation;
         auto c = eat().type;
@@ -261,11 +311,6 @@ Expression* Parser::comparison_expression () {
             operation = BinaryOp::GreaterThan;
         else if (c == TokenType::GreaterThanEq)
             operation = BinaryOp::GreaterThanEq;
-        // and && & or ||
-        else if (c == TokenType::And)
-            operation = BinaryOp::And;
-        else if (c == TokenType::Or)
-            operation = BinaryOp::Or;
 
         Expression* rhs = additive_expression();
         BinaryExpression* bop = new BinaryExpression (lhs, operation, rhs);

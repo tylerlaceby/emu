@@ -245,6 +245,8 @@ private:
                         tokens.push_back(Token(TokenType::Fn));
                     else if (ident.compare("if") == 0)
                         tokens.push_back(Token(TokenType::If));
+                    else if (ident.compare("else") == 0)
+                        tokens.push_back(Token(TokenType::Else));
 
                     
                     //////////////////////////

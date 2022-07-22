@@ -1,10 +1,4 @@
-fn add (x, y) {
-    x + y
-}
 
-# Handle if cases.
-if (length(x) < 10) {
-    println(true)
-} else {
-    println (false)
-}
+
+
+let result = (isNumber(x) == true)

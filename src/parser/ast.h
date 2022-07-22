@@ -13,14 +13,15 @@
 
 typedef enum class NodeType {
     Program,
+    IfStatement,
+    VariableAssignment,
+    BlockStatement,
     VariableDeclaration,
     UnaryOperation,
     FunctionDeclaration,
     ObjectExpression,
     MemberExpression,
     ObjectProperty,
-    VariableAssignment,
-    BlockStatement,
     CallExression,
     BinaryOperation,
     BooleanLiteral,
@@ -53,6 +54,7 @@ struct Program : public Node {
 }; 
 
 
+
 struct BlockStatement : public Statement {
     std::vector<Statement*> body;
     BlockStatement () {
@@ -69,6 +71,43 @@ struct BlockStatement : public Statement {
             print_ast(elem, depth + DEPTH_FACTOR);
 
         printf("\n");        
+    }
+
+};
+
+struct IfStatement : public Statement {
+    Statement* truthy;
+    Statement* falsy;
+    Expression* condition;
+
+    IfStatement (Expression* comparisonExpr, Statement* truthyPath, Statement* falsyPath) {
+        type = NodeType::IfStatement;
+        condition = comparisonExpr;
+        truthy = truthyPath;
+        falsy = falsyPath;
+    }
+
+    void print (int depth) {
+
+        rprint(" ", depth);
+        printf("IfStatement: \n");
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("condition: \n");
+        print_ast (condition, depth + DEPTH_FACTOR * 3);
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("truthy: \n");
+        print_ast(truthy, depth + DEPTH_FACTOR * 3);  
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        if (falsy != NULL) {
+            printf("falsy: \n");
+            print_ast(falsy, depth + DEPTH_FACTOR * 3);  
+        } else 
+            printf("falsy: " KCYN "%s" RST, "none");
+                
+        printf("\n");      
     }
 
 };
@@ -483,6 +522,9 @@ static void print_ast (Node* s, int depth) {
 
     case NodeType::VariableDeclaration:
         ((VariableDeclaration*)s)->print(depth + DEPTH_FACTOR);
+        break;
+    case NodeType::IfStatement:
+        ((IfStatement*)s)->print(depth + DEPTH_FACTOR);
         break;
     case NodeType::VariableAssignment:
         ((VariableAssignment*)s)->print(depth + DEPTH_FACTOR);

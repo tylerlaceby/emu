@@ -17,6 +17,7 @@ typedef enum class TokenType {
     Const,                                       // const
     Fn,                                          // fn
     If,                                          // if
+    Else,                                        // else
     // Reserved  Math Symbols
     Equals,                                      // = 
     DoubleEquals,                                // ==
@@ -123,6 +124,8 @@ struct Token {
             t = "Fn";
         else if (type == TokenType::If) 
             t = "If";
+        else if (type == TokenType::Else) 
+            t = "Else";
         
         /////////////////////////
         // Reserved Math Keywords

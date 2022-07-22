@@ -58,6 +58,7 @@ private:
      * TODO?: Add support for a single line function where no block is needed to produce the body.
      */
     Statement* function_declaration_statement ();
+    Statement* if_statement ();
     Statement* block_statement ();
     Expression* expression ();
 
@@ -66,6 +67,8 @@ private:
     Expression* object_expression ();
     Expression* variable_assignment_expression();
     Expression* unary_expression ();
+    Expression* and_expression ();
+    Expression* or_expression ();
     Expression* comparison_expression ();
     Expression* additive_expression ();
     Expression* multiplicative_expression ();
