@@ -62,6 +62,7 @@ private:
     Expression* expression ();
 
     Expression* call_expression ();
+    Expression* member_expression ();
     Expression* object_expression ();
     Expression* variable_assignment_expression();
     Expression* comparison_expression ();

@@ -1,5 +1,6 @@
-let x = fib(45, y = {
-    pos: {
-        x,y,z
-    }, valid: true,
-})
+fn add (x, y) {
+    x + y
+}
+
+const result = Math.round(add(100, 200.5))
+

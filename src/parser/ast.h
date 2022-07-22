@@ -14,6 +14,7 @@ typedef enum class NodeType {
     VariableDeclaration,
     FunctionDeclaration,
     ObjectExpression,
+    MemberExpression,
     ObjectProperty,
     VariableAssignment,
     BlockStatement,
@@ -44,6 +45,33 @@ struct Program : public Node {
         body = std::vector<Node*>();
     }
 }; 
+
+struct MemberExpression : public Expression {
+    Expression* member;
+    Expression* property;
+
+    MemberExpression (Expression* mem, Expression* prop) {
+        type = NodeType::MemberExpression;
+        member = mem;
+        property = prop;
+    }
+
+    void print (int depth) {
+
+        rprint(" ", depth);
+        printf("MemberExpression:\n");
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("member:\n");
+        print_ast(member, depth + DEPTH_FACTOR * 2);
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("property:\n");
+        print_ast(property, depth + DEPTH_FACTOR * 2);
+
+    }
+
+};
 
 struct ObjectProperty : public Expression {
     std::string key;
@@ -198,11 +226,12 @@ struct VariableAssignment : public Expression {
         printf("AssignmentExpression: \n");
 
         rprint(" ", depth + DEPTH_FACTOR * 2);
-        printf("value: \n");
+        printf("assigne: \n");
         print_ast (assigne, depth + DEPTH_FACTOR * 3);
 
-
-        print_ast(value, depth + DEPTH_FACTOR * 2);           
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("value: \n");
+        print_ast(value, depth + DEPTH_FACTOR * 3);           
 
         printf("\n");
     }
@@ -407,6 +436,9 @@ static void print_ast (Node* s, int depth) {
 
     case NodeType::ObjectProperty:
         ((ObjectProperty*)s)->print(depth + DEPTH_FACTOR);
+        break;
+    case NodeType::MemberExpression:
+        ((MemberExpression*)s)->print(depth + DEPTH_FACTOR);
         break;
 
     default:

@@ -106,21 +106,6 @@ Statement* Parser::variable_declaration_statement () {
 }
 
 
-    /*// Member expression is a object.key
-    Expression* parseMemberExpression () {
-        if (peak () == TokenType::DOT) {
-            Expression* object = parsePrimaryExpression();
-            eat(TokenType::DOT);
-            // allows say: x.y.z  = ... Multiple nexted objects.
-            Expression* property = parseMemberExpression();
-            
-            MemberExpression* member = new MemberExpression (object, property);
-            return member;
-
-        } else return parseObjectExpression();
-    }
-    */
-
 
 /* 
 * expression
@@ -154,7 +139,7 @@ Expression* Parser::variable_assignment_expression () {
 
 
 Expression* Parser::call_expression () {
-    Expression* calle = object_expression ();
+    Expression* calle = member_expression();
 
     if (current() != TokenType::LParen)
         return calle;
@@ -163,6 +148,20 @@ Expression* Parser::call_expression () {
     return new CallExpression(calle, args);
 }   
 
+
+// Member expression is a object.key
+Expression* Parser::member_expression () {
+    Expression* object = object_expression();
+    while (current() == TokenType::Dot) {
+        eat();
+        Expression* property = object_expression();
+        object = new MemberExpression (object, property);
+    }
+    
+
+    return object;
+}
+    
 
 Expression* Parser::object_expression () {
 

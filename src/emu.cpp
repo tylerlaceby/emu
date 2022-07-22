@@ -7,6 +7,8 @@
 int main (const int argc, const char** args) {
     bool debugAST = false;
     bool repl = false;
+    bool write_json_ast = false;
+
 
     // Handle CLI Args
     for (int i = 0; i < argc; i++) {
@@ -14,6 +16,9 @@ int main (const int argc, const char** args) {
             debugAST = true;
         if (strcmp(args[i], "--repl") == 0)
             repl = true;
+
+        if (strcmp(args[i], "--ast-json") == 0)
+            write_json_ast = true;
     }
 
 
