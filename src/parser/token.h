@@ -8,39 +8,49 @@
 // Types of EMULANG TOKENS
 typedef enum class TokenType {
     // Literal Values & User Defined Literals
-    Nullish,
-    Numeric,
-    Identifier,
-    Boolean,
+    Nullish,                                     // null
+    Numeric,                                     
+    Identifier,                                  
+    Boolean,                                     // true - false
     // Reserved Words
-    Let, Const,
-    Fn,
-    If,
+    Let,                                         // let
+    Const,                                       // const
+    Fn,                                          // fn
+    If,                                          // if
     // Reserved  Math Symbols
-    Equals,
-    DoubleEquals,
+    Equals,                                      // = 
+    DoubleEquals,                                // ==
+    Not,                                         // !
+    NotEquals,                                   // !=
+    LessThan,                                    // <
+    LessThanEq,                                  // <=
+    GreaterThan,                                 // >
+    GreaterThanEq,                               // >=                      
 
-    Plus,
-    Minus,
-    Asterisk,
-    Slash,
-    DoublePlus,
-    DoubleMinus,
-    DoubleAsterisk,
+    Or,                                          // ||
+    And,                                         // &&
+    
+
+    Plus,                                        // +
+    Minus,                                       // -
+    Asterisk,                                    // *
+    Slash,                                       // /
+    // DoublePlus,                                  // ++
+    // DoubleMinus,                                 // --
+    // DoubleAsterisk,                              // **
 
     // Reserved Symbols
-    Comma,
+    Comma,                                       // ,
 
-    LBracket,
-    RBracket,
-    Dot,
-    Not,
-    Colon,
-    LParen,
-    RParen,
-    LBrace,
-    RBrace,
-    ENDFILE
+    LBracket,                                    // [
+    RBracket,                                    // ]
+    Dot,                                         // .
+    Colon,                                       // :
+    LParen,                                      // (
+    RParen,                                      // )
+    LBrace,                                      // {
+    RBrace,                                      // }
+    ENDFILE                                      // eof
 
 } TokenType;
 
@@ -123,21 +133,39 @@ struct Token {
     
         else if (type == TokenType::DoubleEquals) 
             t = "DoubleEquals";
+        else if (type == TokenType::NotEquals) 
+            t = "NotEquals";
+    
+        else if (type == TokenType::LessThan) 
+            t = "LessThan";
+        else if (type == TokenType::LessThanEq) 
+            t = "LessThanEq";
+
+        else if (type == TokenType::GreaterThan) 
+            t = "GreaterThan";
+        else if (type == TokenType::GreaterThanEq) 
+            t = "GreaterThanEq";
+
+        else if (type == TokenType::And) 
+            t = "And";
+        else if (type == TokenType::Or) 
+            t = "Or";
+        
         
         else if (type == TokenType::Plus) 
             t = "Plus";
         
-        else if (type == TokenType::DoublePlus) 
-            t = "DoublePlus";
+        // else if (type == TokenType::DoublePlus) 
+        //     t = "DoublePlus";
 
         else if (type == TokenType::Minus) 
             t = "Minus";
-        else if (type == TokenType::DoubleMinus) 
-            t = "DoubleMinus";
+        // else if (type == TokenType::DoubleMinus) 
+        //     t = "DoubleMinus";
         else if (type == TokenType::Asterisk) 
             t = "Asterisk";
-        else if (type == TokenType::DoubleAsterisk) 
-            t = "DoubleAsterisk";
+        // else if (type == TokenType::DoubleAsterisk) 
+        //     t = "DoubleAsterisk";
         else if (type == TokenType::Slash) 
             t = "Slash";
 

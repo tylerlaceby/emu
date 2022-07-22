@@ -7,11 +7,14 @@
 #include <stdio.h>
 #include "../emu.h"
 
+// Used to define the growth rate for the print function.
 #define DEPTH_FACTOR 2
+
 
 typedef enum class NodeType {
     Program,
     VariableDeclaration,
+    UnaryOperation,
     FunctionDeclaration,
     ObjectExpression,
     MemberExpression,
@@ -26,99 +29,28 @@ typedef enum class NodeType {
     NumericLiteral,
 } NodeType;
 
-
+// The base AST Node. Expression, Statement and all other nodes are derived from this
 struct Node {
     NodeType type;
 };
 
+// Method used to help print out the ast nodes for debugging purposes.
 static void print_ast (Node* s, int depth);
+// Repeats a character n amount of times in the console.
 static void rprint (const char* chars, int n);
 
 struct Statement : public Node {};
 struct Expression : public Statement {};
 
+// The program class contains the list of statements used throught the program.
 struct Program : public Node {
-    std::vector<Node*> body;
+    std::vector<Statement*> body;
 
     Program () {
         type = NodeType::Program;
-        body = std::vector<Node*>();
+        body = std::vector<Statement*>();
     }
 }; 
-
-struct MemberExpression : public Expression {
-    Expression* member;
-    Expression* property;
-
-    MemberExpression (Expression* mem, Expression* prop) {
-        type = NodeType::MemberExpression;
-        member = mem;
-        property = prop;
-    }
-
-    void print (int depth) {
-
-        rprint(" ", depth);
-        printf("MemberExpression:\n");
-
-        rprint(" ", depth + DEPTH_FACTOR);
-        printf("member:\n");
-        print_ast(member, depth + DEPTH_FACTOR * 2);
-
-        rprint(" ", depth + DEPTH_FACTOR);
-        printf("property:\n");
-        print_ast(property, depth + DEPTH_FACTOR * 2);
-
-    }
-
-};
-
-struct ObjectProperty : public Expression {
-    std::string key;
-    bool shorthand;
-    Expression* rhs;
-
-    ObjectProperty (std::string k, bool sh, Expression* v) {
-        rhs = v;
-        shorthand = sh;
-        key = k;
-        type = NodeType::ObjectProperty;
-    }
-
-    void print (int depth) {
-        rprint(" ", depth);
-        printf("Property:\n");
-
-        rprint(" ", depth + DEPTH_FACTOR);
-        printf("key:\x1B[32m %s\n" RST, key.c_str());
-
-        rprint(" ", depth + DEPTH_FACTOR);
-        printf("shorthand:\x1B[36m %s\n" RST, shorthand? "true":"false");
-
-        if (!shorthand)
-            print_ast(rhs, depth + DEPTH_FACTOR);
-
-        printf("\n");
-    }
-};
-
-struct ObjectExpression : public Expression {
-    std::vector<ObjectProperty*> properties;
-
-    ObjectExpression(std::vector<ObjectProperty*> props) {
-        properties = props;
-        type = NodeType::ObjectExpression;
-    }
-
-    void print (int depth) {
-        rprint(" ", depth);
-        printf("ObjectExpression: \n");
-        for (auto prop : properties)
-            print_ast(prop, depth + DEPTH_FACTOR);
-
-        printf("\n");
-    }
-};
 
 
 struct BlockStatement : public Statement {
@@ -208,7 +140,6 @@ struct VariableDeclaration : public Statement {
     }
 };
 
-
 struct VariableAssignment : public Expression {
 
     Expression* assigne;
@@ -269,15 +200,98 @@ struct CallExpression : public Expression {
 
 };
 
+
+struct MemberExpression : public Expression {
+    Expression* member;
+    Expression* property;
+
+    MemberExpression (Expression* mem, Expression* prop) {
+        type = NodeType::MemberExpression;
+        member = mem;
+        property = prop;
+    }
+
+    void print (int depth) {
+
+        rprint(" ", depth);
+        printf("MemberExpression:\n");
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("member:\n");
+        print_ast(member, depth + DEPTH_FACTOR * 2);
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("property:\n");
+        print_ast(property, depth + DEPTH_FACTOR * 2);
+
+    }
+
+};
+
+struct ObjectProperty : public Expression {
+    std::string key;
+    bool shorthand;
+    Expression* rhs;
+
+    ObjectProperty (std::string k, bool sh, Expression* v) {
+        rhs = v;
+        shorthand = sh;
+        key = k;
+        type = NodeType::ObjectProperty;
+    }
+
+    void print (int depth) {
+        rprint(" ", depth);
+        printf("Property:\n");
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("key:\x1B[32m %s\n" RST, key.c_str());
+
+        rprint(" ", depth + DEPTH_FACTOR);
+        printf("shorthand:\x1B[36m %s\n" RST, shorthand? "true":"false");
+
+        if (!shorthand)
+            print_ast(rhs, depth + DEPTH_FACTOR);
+
+        printf("\n");
+    }
+};
+
+struct ObjectExpression : public Expression {
+    std::vector<ObjectProperty*> properties;
+
+    ObjectExpression(std::vector<ObjectProperty*> props) {
+        properties = props;
+        type = NodeType::ObjectExpression;
+    }
+
+    void print (int depth) {
+        rprint(" ", depth);
+        printf("ObjectExpression: \n");
+        for (auto prop : properties)
+            print_ast(prop, depth + DEPTH_FACTOR);
+
+        printf("\n");
+    }
+};
+
+
 struct LiteralExpression : public Expression {};
 
 enum BinaryOp {
+    Or, And,
     IsEquals, 
+    NotEquals,
+    LessThan,
+    GreaterThan,
+    LessThanEq,
+    GreaterThanEq,
     Add,
     Subtract,
     Divide,
     Multiply,
 };
+
 
 struct BinaryExpression : public Expression {
     BinaryOp op;
@@ -297,8 +311,22 @@ struct BinaryExpression : public Expression {
     void print (int depth) {
         std::string binop = "UndefinedBinop";
 
-        if (op == BinaryOp::IsEquals)
+        if (op == BinaryOp::Or)
+            binop = "or";
+        else if (op == BinaryOp::And)
+            binop = "and";
+        else if (op == BinaryOp::IsEquals)
             binop = "==";
+        else if (op == BinaryOp::NotEquals)
+            binop = "!=";
+        else if (op == BinaryOp::LessThan)
+            binop = "<";
+        else if (op == BinaryOp::LessThanEq)
+            binop = "<=";
+        else if (op == BinaryOp::GreaterThan)
+            binop = ">";
+        else if (op == BinaryOp::GreaterThanEq)
+            binop = ">=";
         else if (op == BinaryOp::Add)
             binop = "add";
         else if (op == BinaryOp::Subtract)
@@ -321,6 +349,41 @@ struct BinaryExpression : public Expression {
         
         // rprint(" ", depth + DEPTH_FACTOR * 2);
         // printf("right: \n");
+        print_ast(right, DEPTH_FACTOR * 2 + depth);
+
+        printf("\n");
+    }
+};
+
+enum UnaryOp {
+    Inverse,
+    Not,
+};
+
+struct UnaryExpression : public Expression {
+    UnaryOp op;
+    Expression* right;
+    
+    UnaryExpression (UnaryOp o, Expression* r) {
+        right = r;
+        op = o;
+        type = NodeType::UnaryOperation;
+    }
+
+    void print (int depth) {
+        std::string uop = "UndefinedUnaryOperation";
+
+        if (op == UnaryOp::Inverse)
+            uop = "inverse";
+        else if (op == UnaryOp::Not)
+            uop = "not";
+
+        rprint(" ", depth);
+        printf("UnaryOperation: \n");
+
+        rprint(" ", depth + DEPTH_FACTOR * 2);
+        printf("operator:\x1B[33m %s\n" RST, uop.c_str());
+
         print_ast(right, DEPTH_FACTOR * 2 + depth);
 
         printf("\n");
@@ -410,6 +473,9 @@ static void print_ast (Node* s, int depth) {
         break;
     case NodeType::BinaryOperation:
         ((BinaryExpression*)s)->print(depth);
+        break;
+    case NodeType::UnaryOperation:
+        ((UnaryExpression*)s)->print(depth + DEPTH_FACTOR);
         break;
     case NodeType::CallExression:
         ((CallExpression*)s)->print(DEPTH_FACTOR + depth);

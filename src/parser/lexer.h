@@ -85,9 +85,6 @@ private:
             case '}':
                 addToken(TokenType::RBrace);
                 break;
-            case '!':
-                addToken(TokenType::Not);
-                break;
             case ':':
                 addToken(TokenType::Colon);
                 break;
@@ -95,9 +92,31 @@ private:
             //////////////////////////////////////////////////////////////
             // Handle all operators that can have a single or double value
             //////////////////////////////////////////////////////////////
+            case '!':
+                if (peak() == '=') {
+                    addToken(TokenType::NotEquals);
+                    pos++;
+                }
+                else addToken(TokenType::Not);
+                break;
 
-            case '=':
+            case '&':
+                if (peak() == '&') {
+                    addToken(TokenType::And);
+                    pos++;
+                }
+                else emu::error("Unknown use for single & token!");
+                break;
+
+            case '|':
+                if (peak() == '|') {
+                    addToken(TokenType::Or);
+                    pos++;
+                }
+                else emu::error("Unknown use for single | token!");
+                break;
                 
+            case '=':
                 if (peak() == '=') {
                     addToken(TokenType::DoubleEquals);
                     pos++;
@@ -105,36 +124,58 @@ private:
                 else addToken(TokenType::Equals);
                 break;
 
-            case '+':
+            // Cannot yet impliment double tokens.
+            case '+':   
 
                 if (peak() == '+') {
-                    addToken(TokenType::DoublePlus);
+                    addToken(TokenType::Plus);
                     pos++;
                 }
-                else addToken(TokenType::Plus);
+                
+                addToken(TokenType::Plus);
                 break;
+            
 
+            // Cannot yet impliment double tokens.
             case '-':
 
                 if (peak() == '-') {
-                    addToken(TokenType::DoubleMinus);
+                    addToken(TokenType::Minus);
                     pos++;
                 }
-                else addToken(TokenType::Minus);
+                
+                addToken(TokenType::Minus);
                 break;
-
+            // Cannot yet impliment double tokens.
             case '*':
 
                 if (peak() == '*') {
-                    addToken(TokenType::DoubleAsterisk);
+                    addToken(TokenType::Asterisk);
                     pos++;
                 }
-                else addToken(TokenType::Asterisk);
+                
+                addToken(TokenType::Asterisk);
                 break;
 
             // Handle single slash. There is zero chance I will add a double slash ever lol!
             case '/':
                 addToken(TokenType::Slash);
+                break;
+
+            case '<':
+                if (peak() == '=') {
+                    addToken(TokenType::LessThanEq);
+                    pos++;
+                }
+                else addToken(TokenType::LessThan);
+                break;
+
+            case '>':
+                if (peak() == '=') {
+                    addToken(TokenType::GreaterThanEq);
+                    pos++;
+                }
+                else addToken(TokenType::GreaterThan);
                 break;
             
             
@@ -202,7 +243,7 @@ private:
                         tokens.push_back(Token(TokenType::Const));
                     else if (ident.compare("fn") == 0)
                         tokens.push_back(Token(TokenType::Fn));
-                    else if (ident.compare("_if") == 0)
+                    else if (ident.compare("if") == 0)
                         tokens.push_back(Token(TokenType::If));
 
                     

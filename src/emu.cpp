@@ -16,7 +16,7 @@ int main (const int argc, const char** args) {
             debugAST = true;
         if (strcmp(args[i], "--repl") == 0)
             repl = true;
-
+        // If I ever add support for ast->json output
         if (strcmp(args[i], "--ast-json") == 0)
             write_json_ast = true;
     }
@@ -27,7 +27,7 @@ int main (const int argc, const char** args) {
     if (repl) {
         std::string buffer;
         std::string code;
-        printf("\nemu language : version 0.1\n");
+        printf("\nemu language : version 0.2\n");
         while (true) {
             printf(">> ");
             std::getline(std::cin, buffer);

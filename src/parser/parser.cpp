@@ -115,6 +115,7 @@ Statement* Parser::variable_declaration_statement () {
 * object-expression
 * cpmparison
 * multiplicatave
+* unary
 * additive
 * primary
 * grouped
@@ -218,17 +219,53 @@ std::vector<Expression*> Parser::comma_seperated_paren_expression() {
     return callArgs;
 }
 
+Expression* Parser::unary_expression () {
+    if (current() == TokenType::Not || current() == TokenType::Minus) {
+        UnaryOp op;
+        auto o = eat();
+
+        if (o == TokenType::Not)
+            op = UnaryOp::Not;
+        else op = UnaryOp::Inverse;
+
+        Expression* term = unary_expression();
+        return new UnaryExpression (op, term);
+    } 
+    
+    return primary_expression();
+}
 
 Expression* Parser::comparison_expression () {
     Expression* lhs = additive_expression();
     
-    while (current() == TokenType::DoubleEquals) {
+    while (current() == TokenType::DoubleEquals || current() == TokenType::NotEquals
+        || current() == TokenType::LessThan     || current() == TokenType::LessThanEq 
+        || current() == TokenType::GreaterThan  || current() == TokenType::GreaterThanEq
+        || current() == TokenType::Or           || current() == TokenType::And ) {
+        
         BinaryOp operation;
         auto c = eat().type;
         
         // Determine which operation to use.
         if (c == TokenType::DoubleEquals)
             operation = BinaryOp::IsEquals;
+        else if (c == TokenType::NotEquals)
+            operation = BinaryOp::NotEquals;
+        // LessThan < & LessThanEq <=
+        else if (c == TokenType::LessThan)
+            operation = BinaryOp::LessThan;
+        else if (c == TokenType::LessThanEq)
+            operation = BinaryOp::LessThanEq;
+        // GreaterThan > & GreaterThanEq >=
+        else if (c == TokenType::GreaterThan)
+            operation = BinaryOp::GreaterThan;
+        else if (c == TokenType::GreaterThanEq)
+            operation = BinaryOp::GreaterThanEq;
+        // and && & or ||
+        else if (c == TokenType::And)
+            operation = BinaryOp::And;
+        else if (c == TokenType::Or)
+            operation = BinaryOp::Or;
 
         Expression* rhs = additive_expression();
         BinaryExpression* bop = new BinaryExpression (lhs, operation, rhs);
@@ -256,13 +293,13 @@ Expression* Parser::additive_expression () {
 
 Expression* Parser::multiplicative_expression () {
 
-    Expression* lhs = primary_expression();
+    Expression* lhs = unary_expression();
 
     while (current() == TokenType::Asterisk || current() == TokenType::Slash) {
 
         BinaryOp op = (eat() == TokenType::Asterisk)? BinaryOp::Multiply : BinaryOp::Divide;
 
-        Expression* right = primary_expression();
+        Expression* right = unary_expression();
         BinaryExpression* bop = new BinaryExpression(lhs, op, right);
 
         lhs = bop;
@@ -315,6 +352,8 @@ Expression* Parser::primary_expression () {
 
 
 Expression* Parser::parenthesized_expression () {
-    emu::error("Unimplimented Parenthesised Expression");
-    return new Null();
+    eat(TokenType::LParen, "Expected left parenthesis - Parenthesised expr.");
+    Expression* inner = expression();
+    eat(TokenType::RParen, "Expected closing parenthesis inside parenthesised expression.");
+    return inner;
 }

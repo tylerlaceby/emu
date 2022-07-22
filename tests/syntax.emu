@@ -2,5 +2,9 @@ fn add (x, y) {
     x + y
 }
 
-const result = Math.round(add(100, 200.5))
-
+# Handle if cases.
+if (length(x) < 10) {
+    println(true)
+} else {
+    println (false)
+}
