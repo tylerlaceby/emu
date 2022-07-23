@@ -2,7 +2,7 @@
 Just a toy language I am working on.
 The emu language aims to have a super simple FFI interface and a very easy to use std library to prototype 2d graphic applications. I imagine emu being great for creating 2d graphics and simulation applications with a language that has easy interop with C/C++. Mix of pygame api, js syntax and a dead simple ffi system.
 
-For now emu will be interpreted using a tre-walker method. However as the language gets more mature I am hoping to have emu be emu-bytecode for faster runtime gains and platform portability. I expect that to be a few months off at least!
+For now emu will be interpreted using a tre-walker method. However as the language gets more mature I will have an emu-bytecode for faster runtime gains and platform portability. I expect that to be a few months off at least!
 
 ### Disclaimers
 Since Emu is in such a early state, I would suggest and advise against using it unless you expect to run into many runtime crashes and issues on most platforms.
