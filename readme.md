@@ -1,11 +1,17 @@
 # EMU LANGUAGE
 Just a toy language I am working on.
-The emu language aims to have a super simple FFI interface and a very easy to use std library to prototype 2d graphic applications. Emu bytecode will come soon for better performance gains.
+The emu language aims to have a super simple FFI interface and a very easy to use std library to prototype 2d graphic applications. I imagine emu being great for creating 2d graphics and simulation applications with a language that has easy interop with C/C++. Mix of pygame api, js syntax and a dead simple ffi system.
+
+For now emu will be interpreted using a tre-walker method. However as the language gets more mature I am hoping to have emu be emu-bytecode for faster runtime gains and platform portability. I expect that to be a few months off at least!
+
+### Disclaimers
+Since Emu is in such a early state, I would suggest and advise against using it unless you expect to run into many runtime crashes and issues on most platforms.
+I mainly develop emulang on Fedora 36 and Windows 11. 
+
+Emu is a personal project & toy language and nothing more. I plan to make it better and mopre performant/ stable however I just want to use this to make 2d physics simulations and for fun. I appreciate any help and feedback but I dont have any serious goals with emu.
 
 ## Early preview at the syntax
-All of this is subject to change very much :) The language is supposed to feel and work similar to javascript but with support for FFI and macros built in.
-The syntax is generated using a recursive-descent parser instead of a parser-generator which will come in handy when implimenting newer features/syntaxex.
-
+Now that the language has been explained lets see the syntax.
 
 ```py
 
