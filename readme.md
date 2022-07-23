@@ -1,5 +1,5 @@
 # EMU LANGUAGE
-Just a toy language I am working on. The focus of emu is to be compatible with C/Rust code over C-ABI and have native support for FFI on Linux, osx & Win32.
+Just a toy language I am working on.
 The emu language aims to have a super simple FFI interface and a very easy to use std library to prototype 2d graphic applications. Emu bytecode will come soon for better performance gains.
 
 ## Early preview at the syntax
