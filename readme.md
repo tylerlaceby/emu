@@ -6,7 +6,7 @@ All of this is subject to change very much :) The language is supposed to feel a
 The syntax is generated using a recursive-descent parser instead of a parser-generator which will come in handy when implimenting newer features/syntaxex.
 
 
-```js
+```emu
 
 # VARIABLES & Base Types
 # This is a comment inside Emu
