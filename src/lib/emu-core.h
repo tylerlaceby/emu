@@ -2,7 +2,6 @@
 #define EMU_CORE_LIBRARY
 
 #include <string>
-#include <filesystem>
 #include <iostream>
 #include <stdio.h>
 #include "colors.h"

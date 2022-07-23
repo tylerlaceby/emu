@@ -1,6 +1,6 @@
 #include "emu.h"
 #include "parser/parser.h"
-#include "runtime/interpreter.h"
+#include "runtime/Interpreter.h"
 #include <string.h>
 
 //
@@ -24,6 +24,8 @@ int main (const int argc, const char** args) {
 
     Parser parser;
     Program* program;
+    Interpreter interpreter;
+
     if (repl) {
         std::string buffer;
         std::string code;
@@ -44,6 +46,11 @@ int main (const int argc, const char** args) {
         std::string code = emu::io::read_file_to_string ("tests/syntax.emu");
         program = parser.parse(code);
         if (debugAST) print_ast(program, 0);
+
+        // Handle runtime evaluation
+        Val* result = interpreter.execute(program);
+        display_value (result);
     }
+
     return 0;
 }

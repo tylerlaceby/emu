@@ -10,7 +10,6 @@
 // Used to define the growth rate for the print function.
 #define DEPTH_FACTOR 2
 
-
 typedef enum class NodeType {
     Program,
     IfStatement,
