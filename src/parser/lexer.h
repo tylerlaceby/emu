@@ -196,9 +196,13 @@ private:
                     if (isNumeric()) {
                         // build numeric integers
                         std::string num;
-
-                        while (notEOF() && isNumeric())
+                        bool decimal = false;
+                        while (notEOF() && (isNumeric() || current() == '.' )) {
+                            if (current() == '.' && decimal)
+                                emu::error("Cannot have multiple decimal's in numeric");
+                            else if (current() == '.') decimal = true;
                             num += source[pos++];
+                        }
 
                         tokens.push_back(Token(std::stold(num)));
                         pos--;

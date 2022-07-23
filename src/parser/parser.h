@@ -50,32 +50,32 @@ private:
      * 
     */
     Statement* variable_declaration_statement ();
-
+    Statement* function_declaration_statement ();
+    Statement* if_statement ();
+    Statement* block_statement ()
     /**
      * @brief Function declarations follow the fn keyword. Then a comma seperated list of identifiers
      * is expected and then a block expression.
      * 
      * TODO?: Add support for a single line function where no block is needed to produce the body.
-     */
-    Statement* function_declaration_statement ();
-    Statement* if_statement ();
-    Statement* block_statement ();
+     */;
     Expression* expression ();
+    Expression* variable_assignment_expression ();
+
+    Expression* or_expression ();
+    Expression* and_expression ();
+    Expression* comparison_expression ();
+    Expression* additive_expression ();
+    Expression* multiplicative_expression ();
+    Expression* unary_expression ();
 
     Expression* call_expression ();
     Expression* member_expression ();
     Expression* object_expression ();
-    Expression* variable_assignment_expression();
-    Expression* unary_expression ();
-    Expression* and_expression ();
-    Expression* or_expression ();
-    Expression* comparison_expression ();
-    Expression* additive_expression ();
-    Expression* multiplicative_expression ();
-    Expression* primary_expression ();
-    LiteralExpression* literal_expression();
-    Expression* parenthesized_expression ();
 
+    Expression* primary_expression ();
+    Expression* parenthesized_expression ();
+    LiteralExpression* literal_expression();
 
     // Helpers
     std::vector<Expression*> comma_seperated_paren_expression();

@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jul 22 11:11:07 2022
+# Make data base, printed on Fri Jul 22 20:54:58 2022
 
 # Variables
 
@@ -57,13 +57,13 @@ VSCODE_CODE_CACHE_PATH = /home/tyler/.config/Code/CachedData/3b889b090b5ad5793f5
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.PGRLP1
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.W9IEP1
 # default
 .LOADED := 
 # default
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
 # environment
-GNOME_TERMINAL_SERVICE = :1.1855
+GNOME_TERMINAL_SERVICE = :1.92
 # makefile
 MAKEFLAGS = pqrR
 # makefile
@@ -93,13 +93,13 @@ MAKEFILE_LIST := makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 14379
+VSCODE_PID = 5511
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/2159,unix/unix:/tmp/.ICE-unix/2159
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/2122,unix/unix:/tmp/.ICE-unix/2122
 # automatic
 *F = $(notdir $*)
 # environment
@@ -123,7 +123,7 @@ DENO_INSTALL = /home/tyler/.deno
 # environment
 SHLVL = 2
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/d796cde7_0e56_4d96_b14e_4b4806282248
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/bff49233_9091_4ff2_8070_057cb4206ec7
 # environment
 MAKELEVEL := 0
 # default
@@ -157,7 +157,7 @@ LOGNAME = tyler
 # makefile
 .DEFAULT_GOAL := all
 # environment
-SYSTEMD_EXEC_PID = 2210
+SYSTEMD_EXEC_PID = 2173
 # environment
 HISTCONTROL = ignoredups
 # environment
@@ -247,7 +247,7 @@ src/parser/token.h:
 # Not a target:
 src/parser/parser.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-22 11:07:30.900755656
+#  Last modified 2022-07-22 11:27:23.062649661
 #  File has been updated.
 #  Successfully updated.
 
@@ -274,11 +274,10 @@ src/lib/colors.h:
 
 emu: src/emu.h src/emu.cpp src/lib/colors.h src/lib/emu-core.cpp src/lib/emu-core.h src/lib/io.cpp src/parser/ast.h src/parser/lexer.h src/parser/parser.cpp src/parser/parser.h src/parser/token.h src/runtime/interpreter.h
 #  Implicit rule search has not been done.
-#  Last modified 2022-07-22 11:07:48.022677436
+#  Last modified 2022-07-22 11:27:30.638614785
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'makefile', line 8):
- 
 	g++ $(CVERSION) -o $@ $^
 
 # Not a target:
@@ -316,6 +315,7 @@ src/emu.h:
 #  Successfully updated.
 
 # Not a target:
+ 
 makefile:
 #  Implicit rule search has been done.
 #  Last modified 2022-07-20 10:39:55.306788708
@@ -364,6 +364,6 @@ src/lib/io.cpp:
 # strcache performance: lookups = 58 / hit rate = 25%
 # hash-table stats:
 # Load=43/8192=1%, Rehash=0, Collisions=0/58=0%
-# Finished Make data base on Fri Jul 22 11:11:07 2022
+# Finished Make data base on Fri Jul 22 20:54:58 2022
 
  
